@@ -1,11 +1,15 @@
-import { Avatar, Button, Grid, Typography } from '@mui/material';
+import { useState } from 'react';
+
+import { Avatar, Button, Grid, Slide, Typography } from '@mui/material';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/router';
 
 import { useSelector } from 'react-redux';
 
+import DiscoveryLibrary from '@/templates/Chat/DiscoveryLibrary';
+
 import ChatIcon from '@/assets/svg/ChatIcon.svg';
-// import DiscoveryIcon from '@/assets/svg/DiscoveryIcon.svg';
+import DiscoveryIcon from '@/assets/svg/DiscoveryIcon.svg';
 import HomeIcon from '@/assets/svg/HomeMenuIcon.svg';
 import LogoutIcon from '@/assets/svg/LogoutIcon.svg';
 
@@ -24,12 +28,12 @@ const PAGES = [
     icon: <HomeIcon />,
     id: 'home',
   },
-  /* {
+  {
     name: 'Discovery',
     link: ROUTES.DISCOVERY,
     icon: <DiscoveryIcon />,
     id: 'discovery',
-  }, */
+  },
   {
     name: 'Chat',
     link: ROUTES.CHAT,
@@ -46,7 +50,8 @@ const PAGES = [
  * @component
  * @returns {JSX.Element} The navigation bar component.
  */
-const NavBar = () => {
+const NavBar = (props) => {
+  const { isDiscoveryOpen, toggleDiscovery } = props;
   const router = useRouter();
 
   const user = useSelector((state) => state.user.data);
@@ -126,7 +131,7 @@ const NavBar = () => {
         return isNotHomePage ? false : homeRegex.test(pathname);
 
       // TODO: Once Discovery Feature is ready, uncomment below statement.
-      // if (id === 'discovery') return discoveryRegex.test(pathname);
+      if (id === 'discovery') return discoveryRegex.test(pathname);
 
       if (id === 'chat') return chatRegex.test(pathname);
 
@@ -139,8 +144,12 @@ const NavBar = () => {
      * @param {string} link - The route to navigate to.
      * @returns {void}
      */
-    const handleRoute = (link) => {
-      router.push(link);
+    const handleRoute = (link, id) => {
+      if (id === 'discovery' && router.pathname === ROUTES.DISCOVERY) {
+        toggleDiscovery();
+      } else {
+        router.push(link);
+      }
     };
 
     return (
@@ -158,7 +167,6 @@ const NavBar = () => {
       </Grid>
     );
   };
-
   return (
     <Grid {...styles.mainGrid}>
       {renderLogo()}

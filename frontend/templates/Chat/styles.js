@@ -291,6 +291,7 @@ const styles = {
       },
     }),
   },
+
   chatbotSpinnerGridProps: (show) => ({
     position: 'absolute',
     display: show ? 'flex' : 'none',
@@ -404,6 +405,17 @@ const styles = {
       border: '2px solid white',
       borderRadius: '50%',
     },
+  },
+
+  discoveryLibrarySidebar: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '250px', // adjust the width as needed
+    height: '100%',
+    backgroundColor: '#fff',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    zIndex: 1,
   },
 };
 

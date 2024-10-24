@@ -6,33 +6,35 @@ import {
   Settings,
 } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
-
 import {
   Button,
   Fade,
   Grid,
-  IconButton,
   InputAdornment,
+  Slide,
   TextField,
   Typography,
 } from '@mui/material';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import IconButton from '@mui/material/IconButton';
+import { useRouter } from 'next/router';
 
 import { useDispatch, useSelector } from 'react-redux';
 
 import NavigationIcon from '@/assets/svg/Navigation.svg';
+import UnionPurpleIcon from '@/assets/svg/UnionPurple.svg';
 
 import { MESSAGE_ROLE, MESSAGE_TYPES } from '@/constants/bots';
 
-import ChatHistoryWindow from './ChatHistoryWindow';
-import ChatSpinner from './ChatSpinner';
-import DefaultPrompt from './DefaultPrompt';
-import DiscoveryLibraryWindow from './DiscoveryLibraryWindow';
-import Message from './Message';
-import QuickActions from './QuickActions';
-import styles from './styles';
+import ROUTES from '@/constants/routes';
 
-import TextMessage from './TextMessage';
+import ChatSpinner from '../ChatSpinner';
+import DiscoveryLibrary from '../DiscoveryLibrary';
+import Message from '../Message';
+import QuickActions from '../QuickActions';
+
+import TextMessage from '../TextMessage';
+
+import styles from './styles';
 
 import {
   openInfoChat,
@@ -50,15 +52,12 @@ import {
   setStreamingDone,
   setTyping,
 } from '@/redux/slices/chatSlice';
-import { updateHistoryEntry } from '@/redux/slices/historySlice';
-import { firestore } from '@/redux/store';
-import fetchHistory from '@/redux/thunks/fetchHistory';
+
 import createChatSession from '@/services/chatbot/createChatSession';
 import sendMessage from '@/services/chatbot/sendMessage';
 
-const ChatInterface = () => {
-  const messagesContainerRef = useRef();
-
+const DiscoveryLibraryWindow = (props) => {
+  const { isDiscoveryOpen } = props;
   const dispatch = useDispatch();
   const {
     more,
@@ -76,13 +75,15 @@ const ChatInterface = () => {
     actionType,
   } = useSelector((state) => state.chat);
   const { data: userData } = useSelector((state) => state.user);
-
+  const messagesContainerRef = useRef();
   const sessionId = localStorage.getItem('sessionId');
 
   const currentSession = chat;
   const chatMessages = currentSession?.messages;
   const showNewMessageIndicator = !fullyScrolled && streamingDone;
-
+  const router = useRouter();
+  const isDiscoveryPage = router.pathname === ROUTES.DISCOVERY;
+  const [selectedPrompt, setSelectedPrompt] = useState(null);
   const startConversation = async (message) => {
     // Optionally dispatch a temporary message for the user's input
     dispatch(
@@ -115,92 +116,8 @@ const ChatInterface = () => {
     // Set chat session
     dispatch(setChatSession(data));
     dispatch(setSessionLoaded(true));
-
-    dispatch(fetchHistory(userData.id));
-  };
-
-  useEffect(() => {
-    return () => {
-      localStorage.removeItem('sessionId');
-      dispatch(resetChat());
-    };
-  }, []);
-
-  useEffect(() => {
-    let unsubscribe;
-
-    if (sessionLoaded || currentSession) {
-      messagesContainerRef.current?.scrollTo(
-        0,
-        messagesContainerRef.current?.scrollHeight,
-        {
-          behavior: 'smooth',
-        }
-      );
-
-      const sessionRef = query(
-        collection(firestore, 'chatSessions'),
-        where('id', '==', sessionId)
-      );
-
-      unsubscribe = onSnapshot(sessionRef, async (snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          if (change.type === 'modified') {
-            const updatedData = change.doc.data();
-            const updatedMessages = updatedData.messages;
-
-            const lastMessage = updatedMessages[updatedMessages.length - 1];
-            // Convert Firestore timestamp to JavaScript Date object.
-            lastMessage.timestamp = lastMessage.timestamp.toDate();
-
-            // Update the history entry with the latest timestamp.
-            dispatch(
-              updateHistoryEntry({
-                id: sessionId,
-                updatedAt: updatedData.updatedAt.toDate().toISOString(),
-              })
-            );
-
-            if (lastMessage?.role === MESSAGE_ROLE.AI) {
-              dispatch(
-                setMessages({
-                  role: MESSAGE_ROLE.AI,
-                  response: lastMessage,
-                })
-              );
-              dispatch(setTyping(false));
-            }
-          }
-        });
-      });
-    }
-
-    return () => {
-      if (sessionLoaded || currentSession) unsubscribe();
-    };
-  }, [sessionLoaded]);
-
-  const handleOnScroll = () => {
-    const scrolled =
-      Math.abs(
-        messagesContainerRef.current.scrollHeight -
-          messagesContainerRef.current.clientHeight -
-          messagesContainerRef.current.scrollTop
-      ) <= 1;
-
-    if (fullyScrolled !== scrolled) dispatch(setFullyScrolled(scrolled));
-  };
-
-  const handleScrollToBottom = () => {
-    messagesContainerRef.current?.scrollTo(
-      0,
-      messagesContainerRef.current?.scrollHeight,
-      {
-        behavior: 'smooth',
-      }
-    );
-
-    dispatch(setStreamingDone(false));
+    setSelectedPrompt(null);
+    // dispatch(fetchHistory(userData.id));
   };
 
   const handleSendMessage = async () => {
@@ -272,10 +189,46 @@ const ChatInterface = () => {
     dispatch(setActionType(null));
   };
 
+  const handleOnScroll = () => {
+    const scrolled =
+      Math.abs(
+        messagesContainerRef.current.scrollHeight -
+          messagesContainerRef.current.clientHeight -
+          messagesContainerRef.current.scrollTop
+      ) <= 1;
+
+    if (fullyScrolled !== scrolled) dispatch(setFullyScrolled(scrolled));
+  };
+
+  const handleScrollToBottom = () => {
+    messagesContainerRef.current?.scrollTo(
+      0,
+      messagesContainerRef.current?.scrollHeight,
+      {
+        behavior: 'smooth',
+      }
+    );
+
+    dispatch(setStreamingDone(false));
+  };
   /* Push Enter */
   const keyDownHandler = async (e) => {
     if (typing || !input || streaming) return;
     if (e.keyCode === 13) handleSendMessage();
+  };
+
+  const renderQuickAction = () => {
+    return (
+      <InputAdornment position="start">
+        <Grid
+          onClick={() => dispatch(setDisplayQuickActions(!displayQuickActions))}
+          {...styles.quickActionButton}
+        >
+          <AddIcon {...styles.quickActionButtonAddIcon} />
+          <Typography>Actions</Typography>
+        </Grid>
+      </InputAdornment>
+    );
   };
 
   const renderSendIcon = () => {
@@ -293,35 +246,41 @@ const ChatInterface = () => {
     );
   };
 
-  const renderMoreChat = () => {
-    if (!more) return null;
-    return (
-      <Grid {...styles.moreChat.moreChatProps}>
-        <Grid {...styles.moreChat.contentMoreChatProps}>
-          <Settings {...styles.moreChat.iconProps} />
-          <Typography {...styles.moreChat.titleProps}>Settings</Typography>
-        </Grid>
+  const renderCustomPrompt = () => {
+    if (selectedPrompt) {
+      return (
         <Grid
-          {...styles.moreChat.contentMoreChatProps}
-          onClick={() => dispatch(openInfoChat())}
+          onClick={() => dispatch(setMore({ role: 'shutdown' }))}
+          {...styles.centerChat.centerChatGridProps}
         >
-          <InfoOutlined {...styles.moreChat.iconProps} />
-          <Typography {...styles.moreChat.titleProps}>Information</Typography>
+          <Grid {...styles.cardGridProps}>
+            <Grid {...styles.cardContent}>
+              <Typography {...styles.cardTitleProps}>
+                {selectedPrompt.title}
+              </Typography>
+              <Grid item {...styles.unionPurpleIcon}>
+                <UnionPurpleIcon />
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
-      </Grid>
-    );
+      );
+    }
+    return null;
   };
-
   const renderStartChatMessage = () => {
     return (
       <TextMessage
         isMyMessage={false}
-        message="Hello! I’m Marvel, your AI teaching assistant. You can ask any questions realted to best practices in teaching, or working with your students. Feel free to ask me for ideas for your classroom, and the more specific your questions, the better my responses will be. **How can I help you today?**"
+        message="Hi! What would you like to build today?**"
       />
     );
   };
 
   const renderCenterChatContent = () => {
+    if (selectedPrompt) {
+      return renderCustomPrompt(); // Render custom prompt if selected
+    }
     return (
       <Grid
         onClick={() => dispatch(setMore({ role: 'shutdown' }))}
@@ -356,7 +315,6 @@ const ChatInterface = () => {
       </Grid>
     );
   };
-
   const renderNewMessageIndicator = () => {
     return (
       <Fade in={showNewMessageIndicator}>
@@ -369,37 +327,13 @@ const ChatInterface = () => {
     );
   };
 
-  /**
-   * Render the Quick Action component as an InputAdornment.
-   * This component is used to toggle the display of the Quick Actions.
-   *
-   * @return {JSX.Element} The rendered Quick Action component.
-   */
-  const renderQuickAction = () => {
-    // Render the Quick Action component as an InputAdornment.
-    return (
-      <InputAdornment position="start">
-        {/* The Grid component used to display the Quick Action. */}
-        <Grid
-          // Handle the click event to toggle the display of the Quick Actions.
-          onClick={() => dispatch(setDisplayQuickActions(!displayQuickActions))}
-          {...styles.quickActionButton}
-        >
-          {/* Render the AddIcon component. */}
-          <AddIcon {...styles.quickActionButtonAddIcon} />
-          {/* Render the Typography component to display the text. */}
-          <Typography>Actions</Typography>
-        </Grid>
-      </InputAdornment>
-    );
-  };
-
   const renderBottomChatContent = () => {
     if (!openSettingsChat && !infoChatOpened)
       return (
         <Grid {...styles.bottomChatContent.bottomChatContentGridProps}>
           {/* Default Prompt Component */}
-          <DefaultPrompt handleSendMessage={handleSendMessage} />
+          {/* <DefaultPrompt handleSendMessage={handleSendMessage} /> */}
+
           {/* Quick Actions Component */}
           <QuickActions handleSendMessage={handleSendMessage} />
           <Grid {...styles.bottomChatContent.chatInputGridProps(!!error)}>
@@ -425,17 +359,33 @@ const ChatInterface = () => {
   };
 
   return (
-    <Grid {...styles.chatInterface}>
-      <Grid {...styles.mainGridProps}>
-        {renderMoreChat()}
+    <Grid container {...styles.chatInterface}>
+      {/* Discovery Library Slide */}
+      {isDiscoveryPage && (
+        <Slide
+          direction="right"
+          in={isDiscoveryOpen}
+          mountOnEnter
+          unmountOnExit
+        >
+          <Grid item {...styles.discoveryLibrary(isDiscoveryOpen)}>
+            <DiscoveryLibrary
+              show={isDiscoveryOpen}
+              selectedPrompt={setSelectedPrompt}
+            />
+          </Grid>
+        </Slide>
+      )}
+
+      <Grid item {...styles.chatGridProps(isDiscoveryOpen)}>
+        {/* Center Chat Content */}
         {renderCenterChatContent()}
         {renderNewMessageIndicator()}
+        {/* Bottom Chat Content */}
         {renderBottomChatContent()}
       </Grid>
-      {/* ChatHistoryWindow component displays a sidebar that contains chat history. This component is rendered on the right side of the chat interface. */}
-      <ChatHistoryWindow />
     </Grid>
   );
 };
 
-export default ChatInterface;
+export default DiscoveryLibraryWindow;
