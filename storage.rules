@@ -5,6 +5,16 @@ rules_version = '2';
 //    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
 service firebase.storage {
   match /b/{bucket}/o {
+    match /profile_images/{userId}/{imageId} {
+      // Allow write access only to the user who owns the profile picture
+      allow write: if request.auth != null && request.auth.uid == userId;
+      
+      // Allow read access only to the user who owns the profile picture
+      allow read: if request.auth != null && request.auth.uid == userId;
+      
+      // Disallow listing of profile images
+      allow list: if false;
+    }
     match /{allPaths=**} {
       allow read, write: if false;
     }

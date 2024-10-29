@@ -1,10 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
 
-const fetchUserData = createAsyncThunk(
+// Thunk for fetching user data
+export const fetchUserData = createAsyncThunk(
   'userData/fetch',
   async ({ firestore, id }) => {
-    // Query for user doc by id in users collection
     try {
       const userQuery = query(
         collection(firestore, 'users'),
@@ -20,6 +27,25 @@ const fetchUserData = createAsyncThunk(
       return user;
     } catch (error) {
       throw new Error(error);
+    }
+  }
+);
+
+// Thunk for submitting onboarding data
+export const updateUserData = createAsyncThunk(
+  'onboarding/submitOnboardingData',
+  async ({ firestore, data }, { getState, rejectWithValue }) => {
+    try {
+      const { user } = getState();
+      const userId = user?.data?.id;
+
+      const userDocRef = doc(firestore, 'users', userId);
+
+      await setDoc(userDocRef, data, { merge: true });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
   }
 );

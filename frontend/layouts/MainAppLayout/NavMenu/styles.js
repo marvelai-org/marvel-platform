@@ -3,56 +3,63 @@ const styles = {
     container: true,
     item: true,
     mobileSmall: true,
-    rowGap: { laptop: 2, desktop: 4 },
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
     px: { laptop: 1, desktop: 1.5, desktopMedium: 2 },
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
   },
   menuItemProps: (isActive) => ({
     sx: {
       py: 0,
-      px: { laptop: 1, desktop: 1.5, desktopMedium: 2 },
-      width: '100%',
-      borderRadius: '24px',
+      maxWidth: '165px',
+      maxHeight: '40px',
+      width: 'auto',
+      height: '100%',
+      borderRadius: '8px',
+      background: '#24272F',
+      m: 1,
+      border: isActive ? '1px solid #9D74FF' : '1px solid transparent',
       color: (theme) =>
-        isActive
-          ? `${theme.palette.Background.purple}95`
-          : theme.palette.Common.White['100p'],
+        isActive ? `${theme.palette.Background.purple}95` : '#9E94A5',
       path: {
-        fill: (theme) =>
-          isActive
-            ? `${theme.palette.Background.purple}95`
-            : theme.palette.Common.White['100p'],
         stroke: (theme) =>
-          isActive
-            ? `${theme.palette.Background.purple}95`
-            : theme.palette.Common.White['100p'],
+          isActive ? `${theme.palette.Background.purple}95` : '#9E94A5',
       },
       transition: (theme) => theme.transitions.create('all'),
       ':hover': {
-        color: (theme) => theme.palette.Common.White['100p'],
+        color: '#9E94A5',
         background: (theme) => `${theme.palette.Background.purple}30`,
         path: {
-          fill: (theme) => theme.palette.Common.White['100p'],
-          stroke: (theme) => theme.palette.Common.White['100p'],
+          stroke: '#9E94A5',
         },
       },
     },
   }),
   innerMenuGridProps: {
     container: true,
-    mobileSmall: 12,
-    columnGap: 4,
+    item: true,
+    mobileSmall: 'auto',
+    columnGap: 1.5,
+    display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    bgColor: '#24272F',
+    paddingTop: '8px',
+    paddingRight: '12px',
+    paddingBottom: '8px',
+    paddingLeft: '12px',
   },
   menuIconGridProps: {
     container: true,
     item: true,
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     mobileSmall: 'auto',
+    width: '100%',
     sx: {
       svg: {
         transform: { mobileSmall: 'scale(0.8)', desktop: 'scale(1)' },
@@ -62,10 +69,13 @@ const styles = {
   menuTitleGridProps: {
     container: true,
     item: true,
-    justifyContent: 'flex-start˝',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    mobileSmall: true,
-    fontSize: { mobileSmall: '16px', desktop: '18px' },
+    maxWidth: '71px',
+    width: 'auto',
+    maxHeight: '24px',
+    height: 'auto',
+    fontSize: { mobileSmall: '16px', desktop: '16px' },
   },
 };
 

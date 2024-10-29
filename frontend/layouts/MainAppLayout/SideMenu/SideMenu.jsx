@@ -1,10 +1,10 @@
 import { LogoutOutlined } from '@mui/icons-material';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/router';
 
-import MarvelAILogo from '@/assets/svg/MarvelAIFrame.svg';
+import KAIAvatar from '@/assets/svg/KAIAvatar.svg';
 
 import ROUTES from '@/constants/routes';
 
@@ -19,7 +19,7 @@ import { auth } from '@/redux/store';
  *
  * @return {ReactNode} The rendered Side Menu.
  */
-const SideMenu = () => {
+const SideMenu = ({ user }) => {
   const router = useRouter();
 
   const handleSignOutUser = () => {
@@ -30,7 +30,25 @@ const SideMenu = () => {
     return (
       <Grid onClick={() => router.push(ROUTES.HOME)} {...styles.logoGridProps}>
         <Grid {...styles.logoImageGridProps}>
-          <MarvelAILogo />
+          <KAIAvatar />
+        </Grid>
+        <Grid {...styles.titleGridProps}>
+          <Typography {...styles.subtitleProps}>
+            AI Teaching Assistant
+          </Typography>
+        </Grid>
+      </Grid>
+    );
+  };
+
+  const renderProfileImage = () => {
+    return (
+      <Grid {...styles.profileImageGridProps}>
+        <Grid {...styles.logoImageGridProps}>
+          <KAIAvatar />
+        </Grid>
+        <Grid {...styles.titleGridProps}>
+          <Typography {...styles.profileNameProps}>{user?.fullName}</Typography>
         </Grid>
       </Grid>
     );
@@ -41,11 +59,9 @@ const SideMenu = () => {
       <Grid {...styles.logoutGridProps}>
         <Button
           onClick={handleSignOutUser}
-          startIcon={<LogoutOutlined />}
+          endIcon={<LogoutOutlined {...styles.logOutOutlineProps} />}
           {...styles.logoutButtonProps}
-        >
-          Logout
-        </Button>
+        />
       </Grid>
     );
   };
@@ -54,6 +70,7 @@ const SideMenu = () => {
     <Grid {...styles.mainGridProps}>
       {renderLogo()}
       <NavMenu />
+      {renderProfileImage()}
       {renderLogout()}
     </Grid>
   );

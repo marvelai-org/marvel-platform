@@ -149,3 +149,9 @@ body {
     background-position: 0% 50%, 50% 50%, 100% 100%;
   }
 }
+
+/* Default link styles */
+a {
+  color: #9d74ff;
+  text-decoration: none;
+}

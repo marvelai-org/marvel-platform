@@ -40,7 +40,6 @@ const marvelCommunicator = async (payload) => {
 
     const { messages, user, toolData, type } = payload.data;
     const isToolCommunicator = type === BOT_TYPE.TOOL;
-
     const MARVEL_API_KEY = process.env.MARVEL_API_KEY;
     const MARVEL_ENDPOINT = process.env.MARVEL_ENDPOINT;
 
@@ -161,7 +160,11 @@ const chat = onCall(async (props) => {
       }))
     );
 
-    await chatSession.ref.update({ messages: updatedResponseMessages });
+    // Update the chat session with the updated response messages and the current timestamp.
+    await chatSession.ref.update({
+      messages: updatedResponseMessages, // Update the messages array with the new messages and timestamps
+      updatedAt: Timestamp.fromMillis(Date.now()), // Set the updatedAt timestamp to the current time
+    });
 
     if (DEBUG) {
       logger.log(
@@ -327,11 +330,30 @@ const createChatSession = onCall(async (props) => {
   try {
     DEBUG && logger.log('Communicator started, data:', props.data);
 
-    const { user, message, type } = props.data;
+    const { user, message, type, systemMessage } = props.data;
+
+    // Ensure user id in request is same as user.id
+    if (props.auth.uid !== user.id) {
+      throw new HttpsError(
+        'permission-denied',
+        'User ID does not match the authenticated user'
+      );
+    }
 
     if (!user || !message || !type) {
       logger.log('Missing required fields', props.data);
       throw new HttpsError('invalid-argument', 'Missing required fields');
+    }
+
+    /**
+     * If a system message is provided, sets the timestamp of the system message to the current time.
+     * This is done to ensure that the timestamp of the system message is in the same format as the timestamp of user messages.
+     *
+     * @param {Object} systemMessage - The system message object, or null if no system message is provided.
+     */
+    if (systemMessage != null) {
+      // Set the timestamp of the system message to the current time
+      systemMessage.timestamp = Timestamp.fromMillis(Date.now());
     }
 
     const initialMessage = {
@@ -344,17 +366,23 @@ const createChatSession = onCall(async (props) => {
       .firestore()
       .collection('chatSessions')
       .add({
-        messages: [initialMessage],
+        messages:
+          systemMessage == null
+            ? [initialMessage]
+            : [systemMessage, initialMessage],
         user,
         type,
         createdAt: Timestamp.fromMillis(Date.now()),
         updatedAt: Timestamp.fromMillis(Date.now()),
       });
 
-    // Send trigger message to ReX AI
+    // Send trigger message to Marvel AI
     const response = await marvelCommunicator({
       data: {
-        messages: [initialMessage],
+        messages:
+          systemMessage == null
+            ? [initialMessage]
+            : [systemMessage, initialMessage],
         user,
         type,
       },
@@ -388,9 +416,17 @@ const createChatSession = onCall(async (props) => {
     const updatedChatSession = await chatSessionRef.get();
     DEBUG && logger.log('Updated chat session: ', updatedChatSession.data());
 
+    /**
+     * Creates a new chat session object by extracting relevant data from the Firestore document. Converts Firestore timestamps to ISO strings and includes the document ID.
+     * @param {Object} updatedChatSession The Firestore document containing the chat session data.
+     * @return {Object} The new chat session object.
+     */
     const createdChatSession = {
-      ...updatedChatSession.data(),
-      id: updatedChatSession.id,
+      ...updatedChatSession.data(), // Extract relevant data from Firestore document
+      // Convert Firestore timestamps to ISO strings
+      createdAt: updatedChatSession.data().createdAt.toDate().toISOString(),
+      updatedAt: updatedChatSession.data().updatedAt.toDate().toISOString(),
+      id: updatedChatSession.id, // Include the document ID
     };
 
     DEBUG && logger.log('Created chat session: ', createdChatSession);

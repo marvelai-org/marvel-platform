@@ -47,7 +47,12 @@ const ToolForm = (props) => {
         name,
         value,
       }));
-      dispatch(setPrompt(values));
+      dispatch(
+        setPrompt({
+          ...values,
+          files: files ? files.map((file) => file.name) : [],
+        })
+      ); // Only dispatch file names if files are present
       dispatch(setCommunicatorLoading(true));
 
       const response = await submitPrompt(
@@ -165,7 +170,7 @@ const ToolForm = (props) => {
           error={errors?.[inputName]}
           helperText={errors?.[inputName]?.message}
           color="purple"
-          bgColor="#ffffff"
+          bgColor="#23252A"
           control={control}
           getValues={getValues}
           ref={register}

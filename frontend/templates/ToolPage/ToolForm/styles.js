@@ -15,7 +15,7 @@ const styles = {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     rowSpacing: 3,
-    mt: 3,
+    mt: 1,
   },
   titleGridProps: {
     container: true,
@@ -57,6 +57,9 @@ const styles = {
     fontSize: { laptop: '24px', desktop: '26px' },
     fontFamily: 'Satoshi Bold',
   }),
+  actionButtonGridProps: {
+    alignSelf: 'end',
+  },
   submitButtonProps: {
     color: 'purple',
     extraProps: {

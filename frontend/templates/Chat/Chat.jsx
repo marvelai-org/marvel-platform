@@ -5,6 +5,8 @@ import {
   InfoOutlined,
   Settings,
 } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
+
 import {
   Button,
   Fade,
@@ -22,15 +24,21 @@ import NavigationIcon from '@/assets/svg/Navigation.svg';
 
 import { MESSAGE_ROLE, MESSAGE_TYPES } from '@/constants/bots';
 
-import CenterChatContentNoMessages from './CenterChatContentNoMessages';
+import ChatHistoryWindow from './ChatHistoryWindow';
 import ChatSpinner from './ChatSpinner';
+import DefaultPrompt from './DefaultPrompt';
 import Message from './Message';
+import QuickActions from './QuickActions';
 import styles from './styles';
+
+import TextMessage from './TextMessage';
 
 import {
   openInfoChat,
   resetChat,
+  setActionType,
   setChatSession,
+  setDisplayQuickActions,
   setError,
   setFullyScrolled,
   setInput,
@@ -41,7 +49,9 @@ import {
   setStreamingDone,
   setTyping,
 } from '@/redux/slices/chatSlice';
+import { updateHistoryEntry } from '@/redux/slices/historySlice';
 import { firestore } from '@/redux/store';
+import fetchHistory from '@/redux/thunks/fetchHistory';
 import createChatSession from '@/services/chatbot/createChatSession';
 import sendMessage from '@/services/chatbot/sendMessage';
 
@@ -61,6 +71,8 @@ const ChatInterface = () => {
     streamingDone,
     streaming,
     error,
+    displayQuickActions,
+    actionType,
   } = useSelector((state) => state.chat);
   const { data: userData } = useSelector((state) => state.user);
 
@@ -102,6 +114,8 @@ const ChatInterface = () => {
     // Set chat session
     dispatch(setChatSession(data));
     dispatch(setSessionLoaded(true));
+
+    dispatch(fetchHistory(userData.id));
   };
 
   useEffect(() => {
@@ -135,6 +149,16 @@ const ChatInterface = () => {
             const updatedMessages = updatedData.messages;
 
             const lastMessage = updatedMessages[updatedMessages.length - 1];
+            // Convert Firestore timestamp to JavaScript Date object.
+            lastMessage.timestamp = lastMessage.timestamp.toDate();
+
+            // Update the history entry with the latest timestamp.
+            dispatch(
+              updateHistoryEntry({
+                id: sessionId,
+                updatedAt: updatedData.updatedAt.toDate().toISOString(),
+              })
+            );
 
             if (lastMessage?.role === MESSAGE_ROLE.AI) {
               dispatch(
@@ -179,8 +203,6 @@ const ChatInterface = () => {
   };
 
   const handleSendMessage = async () => {
-    dispatch(setStreaming(true));
-
     if (!input) {
       dispatch(setError('Please enter a message'));
       setTimeout(() => {
@@ -189,11 +211,15 @@ const ChatInterface = () => {
       return;
     }
 
+    // BUG FIX: First checking whether the user has entered any text before setting streaming true amd then sending the message.
+    dispatch(setStreaming(true));
+
     const message = {
       role: MESSAGE_ROLE.HUMAN,
       type: MESSAGE_TYPES.TEXT,
       payload: {
         text: input,
+        action: actionType,
       },
     };
 
@@ -217,6 +243,7 @@ const ChatInterface = () => {
     setTimeout(async () => {
       await sendMessage({ message, id: sessionId }, dispatch);
     }, 0);
+    dispatch(setActionType(null));
   };
 
   const handleQuickReply = async (option) => {
@@ -228,6 +255,7 @@ const ChatInterface = () => {
       type: MESSAGE_TYPES.QUICK_REPLY,
       payload: {
         text: option,
+        action: actionType,
       },
     };
 
@@ -239,6 +267,8 @@ const ChatInterface = () => {
     dispatch(setTyping(true));
 
     await sendMessage({ message, id: currentSession?.id }, dispatch);
+
+    dispatch(setActionType(null));
   };
 
   /* Push Enter */
@@ -281,50 +311,49 @@ const ChatInterface = () => {
     );
   };
 
-  const renderCenterChatContent = () => {
-    if (
-      !openSettingsChat &&
-      !infoChatOpened &&
-      chatMessages?.length !== 0 &&
-      !!chatMessages
-    )
-      return (
-        <Grid
-          onClick={() => dispatch(setMore({ role: 'shutdown' }))}
-          {...styles.centerChat.centerChatGridProps}
-        >
-          <Grid
-            ref={messagesContainerRef}
-            onScroll={handleOnScroll}
-            {...styles.centerChat.messagesGridProps}
-          >
-            {chatMessages?.map(
-              (message, index) =>
-                message?.role !== MESSAGE_ROLE.SYSTEM && (
-                  <Message
-                    ref={messagesContainerRef}
-                    {...message}
-                    messagesLength={chatMessages?.length}
-                    messageNo={index + 1}
-                    onQuickReply={handleQuickReply}
-                    streaming={streaming}
-                    fullyScrolled={fullyScrolled}
-                    key={index}
-                  />
-                )
-            )}
-            {typing && <ChatSpinner />}
-          </Grid>
-        </Grid>
-      );
-
-    return null;
+  const renderStartChatMessage = () => {
+    return (
+      <TextMessage
+        isMyMessage={false}
+        message="Hello! I’m Marvel, your AI teaching assistant. You can ask any questions realted to best practices in teaching, or working with your students. Feel free to ask me for ideas for your classroom, and the more specific your questions, the better my responses will be. **How can I help you today?**"
+      />
+    );
   };
 
-  const renderCenterChatContentNoMessages = () => {
-    if ((chatMessages?.length === 0 || !chatMessages) && !infoChatOpened)
-      return <CenterChatContentNoMessages />;
-    return null;
+  const renderCenterChatContent = () => {
+    return (
+      <Grid
+        onClick={() => dispatch(setMore({ role: 'shutdown' }))}
+        {...styles.centerChat.centerChatGridProps}
+      >
+        <Grid
+          ref={messagesContainerRef}
+          onScroll={handleOnScroll}
+          {...styles.centerChat.messagesGridProps}
+        >
+          {/* Render the start chat message if there are no chat messages or if the info chat is not open. */}
+          {(chatMessages?.length === 0 || !chatMessages) && !infoChatOpened
+            ? renderStartChatMessage()
+            : null}
+          {chatMessages?.map(
+            (message, index) =>
+              message?.role !== MESSAGE_ROLE.SYSTEM && (
+                <Message
+                  ref={messagesContainerRef}
+                  {...message}
+                  messagesLength={chatMessages?.length}
+                  messageNo={index + 1}
+                  onQuickReply={handleQuickReply}
+                  streaming={streaming}
+                  fullyScrolled={fullyScrolled}
+                  key={index}
+                />
+              )
+          )}
+          {typing && <ChatSpinner />}
+        </Grid>
+      </Grid>
+    );
   };
 
   const renderNewMessageIndicator = () => {
@@ -339,10 +368,39 @@ const ChatInterface = () => {
     );
   };
 
+  /**
+   * Render the Quick Action component as an InputAdornment.
+   * This component is used to toggle the display of the Quick Actions.
+   *
+   * @return {JSX.Element} The rendered Quick Action component.
+   */
+  const renderQuickAction = () => {
+    // Render the Quick Action component as an InputAdornment.
+    return (
+      <InputAdornment position="start">
+        {/* The Grid component used to display the Quick Action. */}
+        <Grid
+          // Handle the click event to toggle the display of the Quick Actions.
+          onClick={() => dispatch(setDisplayQuickActions(!displayQuickActions))}
+          {...styles.quickActionButton}
+        >
+          {/* Render the AddIcon component. */}
+          <AddIcon {...styles.quickActionButtonAddIcon} />
+          {/* Render the Typography component to display the text. */}
+          <Typography>Actions</Typography>
+        </Grid>
+      </InputAdornment>
+    );
+  };
+
   const renderBottomChatContent = () => {
     if (!openSettingsChat && !infoChatOpened)
       return (
         <Grid {...styles.bottomChatContent.bottomChatContentGridProps}>
+          {/* Default Prompt Component */}
+          <DefaultPrompt handleSendMessage={handleSendMessage} />
+          {/* Quick Actions Component */}
+          <QuickActions handleSendMessage={handleSendMessage} />
           <Grid {...styles.bottomChatContent.chatInputGridProps(!!error)}>
             <TextField
               value={input}
@@ -353,9 +411,9 @@ const ChatInterface = () => {
               disabled={!!error}
               focused={false}
               {...styles.bottomChatContent.chatInputProps(
+                renderQuickAction,
                 renderSendIcon,
-                !!error,
-                input
+                !!error
               )}
             />
           </Grid>
@@ -366,12 +424,15 @@ const ChatInterface = () => {
   };
 
   return (
-    <Grid {...styles.mainGridProps}>
-      {renderMoreChat()}
-      {renderCenterChatContent()}
-      {renderCenterChatContentNoMessages()}
-      {renderNewMessageIndicator()}
-      {renderBottomChatContent()}
+    <Grid {...styles.chatInterface}>
+      <Grid {...styles.mainGridProps}>
+        {renderMoreChat()}
+        {renderCenterChatContent()}
+        {renderNewMessageIndicator()}
+        {renderBottomChatContent()}
+      </Grid>
+      {/* ChatHistoryWindow component displays a sidebar that contains chat history. This component is rendered on the right side of the chat interface. */}
+      <ChatHistoryWindow />
     </Grid>
   );
 };

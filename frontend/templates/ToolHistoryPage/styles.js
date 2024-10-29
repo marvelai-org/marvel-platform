@@ -36,7 +36,7 @@ const styles = {
     fontFamily: 'Satoshi Regular',
     fontSize: '24px',
     textAlign: 'center',
-    color: (theme) => theme.palette.Greyscale[600],
+    marginBottom: '30px',
   },
   emptyMessageButtonProps: {
     fontFamily: 'Satoshi Regular',
@@ -53,6 +53,21 @@ const styles = {
       '&:hover': {
         cursor: 'pointer',
       },
+    },
+  },
+  outlinedButtonProps: {
+    color: 'purple',
+    extraProps: {
+      padding: '2px',
+      height: { laptop: '40px', desktop: '42px', desktopMedium: '45px' },
+      borderRadius: '8px',
+    },
+    extraButtonProps: {
+      fontFamily: 'Satoshi Bold',
+      fontSize: { laptop: '14px', desktop: '15px', desktopMedium: '16px' },
+      px: { laptop: 1, desktop: 2, desktopMedium: 3 },
+      color: '#AC92FF !important',
+      borderRadius: '6px',
     },
   },
 };

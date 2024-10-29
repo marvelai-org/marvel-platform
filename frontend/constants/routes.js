@@ -9,6 +9,8 @@ const ROUTES = {
   REDIRECT: '/redirect',
   CHAT: '/chat',
   HISTORY: '/history',
+  DISCOVERY: '/discovery',
+  ONBOARDING: '/onboarding/[onboardingId]',
 };
 
 export default ROUTES;

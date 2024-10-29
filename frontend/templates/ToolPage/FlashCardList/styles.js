@@ -37,8 +37,10 @@ const styles = {
     px: 6,
     py: 10,
     sx: {
-      background: (theme) => theme.palette.Common.White['100p'],
-      borderRadius: '10px',
+      background: '#0F0E14',
+      border: '2px solid #1C1233',
+      borderRadius: '20px',
+      color: 'white',
     },
   },
   questionTitleProps: {

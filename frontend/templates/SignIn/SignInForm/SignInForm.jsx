@@ -22,7 +22,8 @@ import sharedStyles from '@/styles/shared/sharedStyles';
 import { AuthContext } from '@/providers/GlobalProvider';
 
 import { setLoading } from '@/redux/slices/authSlice';
-import { auth } from '@/redux/store';
+import { auth, firestore } from '@/redux/store';
+import fetchUserData from '@/redux/thunks/user';
 
 import AUTH_REGEX from '@/regex/auth';
 
@@ -97,7 +98,14 @@ const SignInForm = (props) => {
 
       // If user is verified, redirect to home
       dispatch(setLoading(true));
-      router.push(ROUTES.HOME);
+      const userData = await dispatch(
+        fetchUserData({ firestore, id: userCred.user.uid })
+      ).unwrap();
+      if (userData?.needsBoarding) {
+        router.replace(ROUTES.ONBOARDING);
+      } else {
+        router.replace(ROUTES.HOME);
+      }
     } catch ({ code }) {
       setError({ password: { message: AUTH_ERROR_MESSAGES[code] } });
     } finally {

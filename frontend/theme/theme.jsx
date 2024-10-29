@@ -177,6 +177,8 @@ const globalTheme = createTheme({
     },
     Background: {
       Default: 'rgba(18, 18, 18, 1)',
+      darkGradientBackground:
+        'radial-gradient(97.95% 97.95% at 50% 1.11%, #4A426A 0%, #201E2B 38.41%, #000000 100%)',
       primary: '#292B2F',
       secondary: 'linear-gradient(286.17deg, #99FDFF 0%, #D1B3FF 100%)',
       pink: '#FF98B7',

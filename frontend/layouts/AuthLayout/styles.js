@@ -17,7 +17,7 @@ const styles = {
     priority: true,
     style: { zIndex: 0 },
   },
-  reXImageProps: {
+  marvelImageProps: {
     layout: 'fill',
     objectFit: 'cover',
     priority: true,
@@ -97,7 +97,7 @@ const styles = {
       },
     }),
   },
-  reXProps: {
+  marvelProps: {
     sx: (theme) => ({
       position: 'absolute',
       zIndex: 2,

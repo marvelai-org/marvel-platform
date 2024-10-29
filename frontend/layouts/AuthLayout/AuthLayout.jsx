@@ -55,11 +55,11 @@ const AuthLayout = (props) => {
   const renderArtifacts = () => {
     return (
       <>
-        <Box {...styles.reXProps}>
+        <Box {...styles.marvelProps}>
           <Image
-            {...styles.reXImageProps}
+            {...styles.marvelImageProps}
             src={ImageURLs.MarvelAuthImg}
-            alt="rexImage"
+            alt="Marvel Image"
           />
         </Box>
         <Box {...styles.greenBlobProps}>

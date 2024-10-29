@@ -7,17 +7,17 @@ const styles = {
     justifyContent: isMyMessage ? 'flex-end' : 'flex-start',
     mt: 3,
   }),
-  messageProps: (isMyMessage) => ({
+  messageProps: () => ({
     sx: {
       width: '100%',
       textWrap: 'wrap',
       wordWrap: 'break-word',
       fontFamily: 'Satoshi Medium',
+      fontWeight: '300',
       fontSize: { laptop: '16px', desktop: '18px', desktopMedium: '20px' },
-      color: (theme) =>
-        isMyMessage
-          ? theme.palette.Common.White['100p']
-          : theme.palette.Common.Black['100p'],
+      lineHeight: { desktop: '24px', desktopMedium: '28px' },
+      letterSpacing: '0.02em',
+      color: (theme) => theme.palette.Common.White['100p'],
       ol: {
         ml: 4,
       },
@@ -61,13 +61,17 @@ const styles = {
     item: true,
     width: 'auto',
     maxWidth: '100%',
-    flexDirection: !isMyMessage && 'column',
+    flexDirection: !isMyMessage && 'row',
+    flexWrap: 'nowrap',
+    alignItems: 'flex-start',
+    gap: '20px',
     sx: {
-      borderRadius: '50px',
+      borderRadius: isMyMessage && '10px 10px 0px 10px',
       px: isMyMessage && { laptop: 2, desktop: 2.5, desktopMedium: 3 },
       py: isMyMessage && { laptop: 1, desktop: 1.5, desktopMedium: 2 },
       textAlign: 'left',
-      background: (theme) => isMyMessage && theme.palette.primary.main,
+      // background: (theme) => isMyMessage && theme.palette.primary.main,
+      background: isMyMessage && '#33363C',
     },
   }),
 };

@@ -1,10 +1,9 @@
-import { Card, Grid, Typography } from '@mui/material';
-
-import Image from 'next/image';
+import { AutoAwesome } from '@mui/icons-material';
+import { Card, Chip, Grid, Typography } from '@mui/material';
 
 import { useRouter } from 'next/router';
 
-import ToolImage from '@/assets/images/BookImage.png';
+import { TOOLS_ID } from '@/constants/tools';
 
 import styles from './styles';
 
@@ -14,24 +13,24 @@ import styles from './styles';
  * @return {JSX.Element} The Tool Card component.
  */
 const ToolCard = (props) => {
-  const { maskedToolUrl, backgroundImgURL, name, logo, description } = props;
+  const { id, maskedToolUrl, backgroundImgURL, name, description } = props;
+
+  // Debugging: Log TOOLS_ID and id
+  console.log('TOOLS_ID:', TOOLS_ID);
+  console.log('id:', id);
+
+  // Check if TOOLS_ID is an object and id is present
+  const isPublished =
+    TOOLS_ID &&
+    typeof TOOLS_ID === 'object' &&
+    Object.values(TOOLS_ID).includes(id);
 
   const router = useRouter();
 
   const handleRoute = () => {
-    return router.push(`/${maskedToolUrl}`);
-  };
-
-  const renderImage = () => {
-    return (
-      <Grid {...styles.imageGridProps}>
-        <Image
-          src={logo || ToolImage}
-          alt="marvel logo"
-          {...styles.imageProps}
-        />
-      </Grid>
-    );
+    if (isPublished) {
+      router.push(`/${maskedToolUrl}`);
+    }
   };
 
   const renderTitle = () => {
@@ -43,12 +42,22 @@ const ToolCard = (props) => {
     );
   };
 
+  const renderLabel = () => {
+    return (
+      <Chip
+        icon={isPublished ? <AutoAwesome /> : ''}
+        {...styles.labelProps(isPublished)}
+      />
+    );
+  };
+
   return (
     <Grid onClick={handleRoute} {...styles.mainGridProps}>
-      <Card {...styles.cardProps(backgroundImgURL)}>
+      <Card {...styles.cardProps(isPublished)}>
+        <Grid {...styles.imageProps(backgroundImgURL)} />
         <Grid {...styles.toolDetailsGridProps}>
-          {renderImage()}
           {renderTitle()}
+          {renderLabel()}
         </Grid>
       </Card>
     </Grid>

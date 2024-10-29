@@ -86,7 +86,7 @@ const pageNotFoundStyles = {
     justifyContent: 'center',
   },
   subtitleProps: {
-    color: 'black',
+    color: (theme) => theme.palette.text.primary,
     textAlign: 'center',
     fontFamily: 'Satoshi Black',
     fontSize: { laptop: '42px', desktop: '46px', desktopMedium: '50px' },
@@ -101,7 +101,7 @@ const pageNotFoundStyles = {
     mb: 3,
   },
   bodyProps: {
-    color: 'black',
+    color: (theme) => theme.palette.text.primary,
     textAlign: 'center',
     fontFamily: 'Satoshi Medium',
     fontSize: '18px',

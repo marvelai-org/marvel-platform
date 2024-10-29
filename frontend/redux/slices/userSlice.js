@@ -1,20 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import fetchUserData from '../thunks/user';
+import { fetchUserData, updateUserData } from '../thunks/user';
 
 const initialState = {
   data: null,
-  loading: true,
+  loading: false,
   error: null,
 };
 
-const userData = createSlice({
+const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     reset: () => initialState,
     setUserData: (state, action) => {
       state.data = action.payload;
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -29,10 +32,22 @@ const userData = createSlice({
       .addCase(fetchUserData.rejected, (state) => {
         state.error = 'Could not get user data';
         state.loading = false;
+      })
+      .addCase(updateUserData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserData.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = { ...state.data, ...action.payload };
+      })
+      .addCase(updateUserData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
-export const { reset, setUserData } = userData.actions;
+export const { reset, setUserData, setLoading } = userSlice.actions;
 
-export default userData.reducer;
+export default userSlice.reducer;
