@@ -4,7 +4,6 @@ const styles = {
 
   chatInterface: {
     container: true,
-
     height: '100%',
     width: '100%',
     direction: 'row',
@@ -26,7 +25,7 @@ const styles = {
     transition: 'flex-grow 0.3s ease',
     width: isDiscoveryOpen ? '40%' : '100%',
     // transition: 'width 0.3s ease',
-    // height:'100%', // to be commented
+    height: '100%', // to be commented
   }),
 
   centerChat: {
@@ -35,7 +34,7 @@ const styles = {
       container: true,
       mobileSmall: true,
       flexDirection: 'column',
-      // height: '80%', // to be removed
+      height: '80%', // to be removed but not yet
       justifyContent: 'center',
       zIndex: 0,
       px: { laptop: 2, desktop: 2.5, desktopMedium: 3 },
@@ -66,6 +65,7 @@ const styles = {
       width: '100%',
       justifyContent: 'space-between',
       alignItems: 'center',
+      marginTop: '-40px', // to be removed but not yet
       pt: { laptop: 2, desktop: 2.5, desktopMedium: 3 },
       px: { laptop: 2, desktop: 2.5, desktopMedium: 3 },
     },
@@ -78,6 +78,7 @@ const styles = {
       alignItems: 'center',
       height: '65px',
       padding: '2px',
+      overflow: 'hidden',
       sx: {
         fieldSet: {
           display: 'none',
@@ -208,13 +209,13 @@ const styles = {
     container: true,
     item: true,
     mobileSmall: 12,
-    mt: 6,
+    mt: 2,
     // ml:15,
     // mr:15,
     width: { laptop: '442px', desktop: '448px' },
     // height: { laptop: '42px', desktop: '48px' },
-    ml: { laptop: 5, desktop: 15 },
-    mr: { laptop: 5, desktop: 15 },
+    // ml: { laptop: 5, desktop: 15 },
+    // mr: { laptop: 5, desktop: 15 },
 
     justifyContent: 'center',
     alignContent: 'flex-start',

@@ -55,7 +55,7 @@ const styles = {
     item: true,
     mobileSmall: true,
     position: 'absolute',
-    top: -50,
+    top: -80,
     // left: 20,
     left: { laptop: -35, desktop: 20 },
     height: '90%',
