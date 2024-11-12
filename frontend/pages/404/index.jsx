@@ -2,7 +2,6 @@ import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 
 import GradientOutlinedButton from '@/components/GradientOutlinedButton';
-import MainAppLayout from '@/layouts/MainAppLayout';
 
 import Planet from '@/assets/svg/planet.svg';
 import Star from '@/assets/svg/Star_3.svg';
@@ -124,10 +123,6 @@ const PageNotFound = () => {
       </Grid>
     </Grid>
   );
-};
-
-PageNotFound.getLayout = function getLayout(page) {
-  return <MainAppLayout>{page}</MainAppLayout>;
 };
 
 export default PageNotFound;

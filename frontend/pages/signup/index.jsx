@@ -4,7 +4,6 @@ import { ArrowBack } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
 import AuthForm from '@/components/AuthForm';
-import AuthLayout from '@/layouts/AuthLayout';
 
 import SignUpForm from '@/templates/SignUp/SignUpForm';
 import VerifyEmailPage from '@/templates/SignUp/VerifyEmailPage';
@@ -83,10 +82,6 @@ const SignUp = () => {
       {!isSignUp && renderVerifyEmail()}
     </>
   );
-};
-
-SignUp.getLayout = function getLayout(page) {
-  return <AuthLayout isAuthScreen>{page}</AuthLayout>;
 };
 
 export default SignUp;

@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 
 import useToolProps from '@/hooks/useToolProps';
 
-import MainAppLayout from '@/layouts/MainAppLayout';
 import ToolPage, { ToolPageSkeleton } from '@/templates/ToolPage';
 
 import ROUTES from '@/constants/routes';
@@ -23,10 +22,6 @@ const IndividualToolPage = () => {
   }
 
   return <ToolPage toolDoc={toolDoc} {...toolProps} />;
-};
-
-IndividualToolPage.getLayout = function getLayout(page) {
-  return <MainAppLayout isToolPage>{page}</MainAppLayout>;
 };
 
 export default IndividualToolPage;
