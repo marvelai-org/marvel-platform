@@ -4,16 +4,17 @@ const styles = {
       width: '100%',
     },
   },
-  inputProps: (error, extraInputProps, borderColor) => ({
+  inputProps: (error, extraInputProps) => ({
     notched: false,
     error,
     autoComplete: 'off',
     sx: (theme) => ({
       fontFamily: 'Satoshi Bold',
-      fontSize: { laptop: '16px', desktopMedium: '18px' },
-      background: theme.palette.Common.White['100p'],
-      borderRadius: '5px',
-      color: 'black',
+      fontSize: { laptop: '14px', desktopMedium: '16px' },
+      background: '#23252A',
+      borderRadius: '15px',
+      color: '#AC92FF',
+      height: '50px',
       ...extraInputProps,
       transition: theme.transitions.create('all'),
       px: 1.5,
@@ -21,7 +22,7 @@ const styles = {
         transition: theme.transitions.create('all'),
       },
       '& .MuiOutlinedInput-notchedOutline': {
-        border: `2px solid ${borderColor || theme.palette.Background.darkgray}`,
+        border: 'none',
       },
       '& input::placeholder': {
         fontStyle: 'italic',
@@ -32,12 +33,7 @@ const styles = {
         color: theme.palette.Background.gray,
       },
       'label + &': {
-        marginTop: 2,
-      },
-      ':hover': {
-        fieldset: {
-          borderColor: 'inherit !important',
-        },
+        marginTop: '10px',
       },
     }),
   }),
@@ -46,10 +42,12 @@ const styles = {
     shrink: true,
     sx: {
       top: '-14px',
-      color: 'black',
-      fontSize: { laptop: '24px', desktop: '26px' },
+      color: 'white !important',
       fontFamily: 'Satoshi Bold',
       overflow: 'visible',
+      '.MuiTypography-root': {
+        fontSize: { laptop: '18px', desktop: '20px' },
+      },
       ...extraInputLabelProps,
     },
   }),

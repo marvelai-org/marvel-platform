@@ -8,9 +8,11 @@ const styles = {
     py: 4,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: '10px',
+    borderRadius: '20px',
     sx: {
-      background: (theme) => theme.palette.Common.White['100p'],
+      background: '#0F0E14',
+      border: '2px solid #1C1233',
+      color: 'white',
     },
   },
   titleGridProps: {

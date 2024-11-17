@@ -1,14 +1,16 @@
 const styles = {
   accordianProps: {
     sx: {
-      background: (theme) => theme.palette.Common.White['100p'],
-      borderRadius: '10px !important',
       width: '100%',
+      border: '2px solid #9D74FF',
+      borderRadius: '20px !important',
+      background: '#0F0E14',
     },
   },
   accordionDetailsProps: (extraAccordionDetailsProps) => ({
     sx: {
       ...extraAccordionDetailsProps,
+      px: '28px',
     },
   }),
   accordionSummaryProps: {
@@ -30,6 +32,10 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     mobileSmall: 12,
+    sx: {
+      color: 'white',
+      fontSize: '22px',
+    },
   },
   outlinedButtonProps: {
     color: 'purple',
@@ -48,7 +54,7 @@ const styles = {
   descriptionGridProps: {
     sx: {
       fontFamily: 'Satoshi Bold',
-      fontSize: { laptop: '14px', desktop: '15px', desktopMedium: '16px' },
+      fontSize: { laptop: '14px', desktop: '15px', desktopMedium: '16.13px' },
       color: (theme) => theme.palette.Greyscale[450],
       textAlign: 'center',
     },

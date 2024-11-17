@@ -32,13 +32,13 @@ const styles = {
     alignItems: 'center',
     pb: 1.5,
     sx: {
-      borderBottom: (theme) => `2px solid ${theme.palette.Greyscale[400]}`,
+      borderBottom: '2px solid #6E6D73',
     },
   },
   categoryTitleProps: {
     fontFamily: 'Satoshi Bold',
     fontSize: '18px',
-    color: (theme) => theme.palette.Greyscale[400],
+    color: '#6E6D73',
   },
 };
 

@@ -3,10 +3,13 @@ import { useEffect } from 'react';
 import { Grid, useMediaQuery } from '@mui/material';
 import Head from 'next/head';
 
+import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AppDisabled from '@/components/AppDisabled';
 import Loader from '@/components/Loader';
+
+import ImageURLs from '@/assets/urls';
 
 import SideMenu from './SideMenu';
 import styles from './styles';
@@ -51,12 +54,17 @@ const MainAppLayout = (props) => {
 
   const renderApp = () => {
     return (
-      <>
-        <SideMenu />
-        <Grid {...styles.contentGridProps(extraContentProps, isToolPage)}>
-          {children}
+      <Grid {...styles.mainGrid}>
+        <Grid {...styles.bgGridProps}>
+          <Image src={ImageURLs.GridBg} alt="grid_bg" {...styles.bgProps} />
         </Grid>
-      </>
+        <Grid {...styles.navBarContainer}>
+          <SideMenu user={user.data} />
+        </Grid>
+        <Grid {...styles.contentGridProps(extraContentProps, isToolPage)}>
+          <Grid {...styles.childrenWrapProps}>{children}</Grid>
+        </Grid>
+      </Grid>
     );
   };
 

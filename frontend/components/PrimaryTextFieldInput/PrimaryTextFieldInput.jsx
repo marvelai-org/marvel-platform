@@ -41,7 +41,7 @@ const PrimaryTextFieldInput = forwardRef((props, ref) => {
     fullWidth: true,
     helperText,
     InputLabelProps: styles.inputLabelProps(error, extraInputLabelProps),
-    InputProps: styles.inputProps(error, extraInputProps, borderColor),
+    InputProps: styles.inputProps(error, extraInputProps),
     FormHelperTextProps: styles.helperTextProps(isDescription, error),
     autoComplete: 'off',
     placeholder,

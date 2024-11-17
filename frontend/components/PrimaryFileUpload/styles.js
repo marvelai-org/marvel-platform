@@ -6,25 +6,31 @@ const styles = {
         div: {
           columnGap: 1,
         },
-        WebkitTextFillColor: 'rgba(0, 0, 0, 0.5) !important',
       },
       '& .MuiOutlinedInput': {
-        border: '2px solid black',
+        border: 'none',
       },
       '& .MuiOutlinedInput-notchedOutline': {
-        border: '2px solid black',
+        border: 'none',
       },
       '&:hover .MuiOutlinedInput-notchedOutline': {
-        border: '2px solid black',
+        border: 'none',
       },
       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        border: '2px solid black',
+        border: 'none',
+      },
+      '& .MuiSvgIcon-root': {
+        color: '#AC92FF',
       },
       width: '100%',
-      backgroundColor: bgColor,
-      borderRadius: '5px',
       whiteSpace: 'wrap',
       px: 1.5,
+      background: bgColor,
+      fontSize: { laptop: '14px', desktopMedium: '16px' },
+      borderRadius: '15px',
+      color: '#AC92FF',
+      height: '50px',
+      mt: 1,
       fieldset: {
         borderColor: (theme) =>
           `${theme.palette.Common.Black['100p']} !important`,
@@ -86,11 +92,14 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'flex-start',
     rowGap: 1,
-    color: (theme) => theme.palette.Common.Black['100p'],
+    color: (theme) => theme.palette.Common.White['100p'],
     ml: 2,
     sx: {
       transform: 'scale(0.75)',
       transformOrigin: 'left',
+      '.MuiTypography-root': {
+        fontSize: { laptop: '18px', desktop: '20px' },
+      },
     },
   },
   labelProps: (error) => ({

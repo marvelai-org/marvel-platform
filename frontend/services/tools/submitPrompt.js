@@ -11,7 +11,9 @@ const submitPrompt = async (payload, files) => {
       });
     }
 
-    const response = await axios.post('/api/tool/', formData, {
+    const url = process.env.NEXT_PUBLIC_KAI_ENDPOINT;
+
+    const response = await axios.post(url, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

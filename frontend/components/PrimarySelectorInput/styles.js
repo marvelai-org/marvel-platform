@@ -16,6 +16,8 @@ const styles = {
       MenuProps: {
         MenuListProps: {
           sx: {
+            background: '#23252A',
+            color: 'white',
             columnGap: 1,
             maxHeight: '400px',
             li: {
@@ -49,7 +51,6 @@ const styles = {
           color: (theme) => theme.palette.Greyscale[700],
           fontSize: '32px !important',
         },
-        border: '2px solid black',
         color: 'black',
       },
     },
@@ -75,6 +76,17 @@ const styles = {
       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
         border: 'none',
       },
+      '& .MuiInputBase-root': {
+        fontSize: { laptop: '14px', desktopMedium: '16px' },
+        background: '#23252A',
+        borderRadius: '15px',
+        color: '#AC92FF',
+        height: '50px',
+        mt: 1,
+      },
+      '& .MuiSvgIcon-root': {
+        color: '#AC92FF',
+      },
       width: '100%',
       '& input::placeholder': {
         fontStyle: 'italic',
@@ -99,9 +111,12 @@ const styles = {
     sx: {
       position: 'relative',
       top: '8px',
-      color: (theme) => `${theme.palette.Common.Black['100p']} !important`,
+      color: (theme) => `${theme.palette.Common.White['100p']} !important`,
       overflow: 'visible',
       transformOrigin: 'left',
+      '.MuiTypography-root': {
+        fontSize: { laptop: '18px', desktop: '20px' },
+      },
     },
   },
   helperTextProps: (error) => ({

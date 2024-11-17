@@ -2,8 +2,10 @@ import HistoryIcon from '@mui/icons-material/History';
 import { Grid, MenuItem } from '@mui/material';
 import { useRouter } from 'next/router';
 
-import Briefcase from '@/assets/svg/Briefcase.svg';
-import ChatBubble from '@/assets/svg/ChatBubble.svg';
+import DiscoveryIcon from '@/assets/svg/add-block.svg';
+
+import ChatBubble from '@/assets/svg/ChatBubbleV2.svg';
+import HomeIcon from '@/assets/svg/HomeIconOutline.svg';
 
 import ROUTES from '@/constants/routes';
 
@@ -13,16 +15,22 @@ import { chatRegex, historyRegex, homeRegex } from '@/regex/routes';
 
 const PAGES = [
   {
-    name: 'Marvel Tools',
+    name: 'Home',
     link: ROUTES.HOME,
-    icon: <Briefcase />,
+    icon: <HomeIcon />,
     id: 'page_1',
   },
   {
-    name: 'Marvel Chat',
+    name: 'Discovery',
+    link: ROUTES.CHAT,
+    icon: <DiscoveryIcon />,
+    id: 'page_2',
+  },
+  {
+    name: 'Chat',
     link: ROUTES.CHAT,
     icon: <ChatBubble />,
-    id: 'page_2',
+    id: 'page_3',
   },
   {
     name: 'History',

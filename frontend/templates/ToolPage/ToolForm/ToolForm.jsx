@@ -165,7 +165,7 @@ const ToolForm = (props) => {
           error={errors?.[inputName]}
           helperText={errors?.[inputName]?.message}
           color="purple"
-          bgColor="#ffffff"
+          bgColor="#23252A"
           control={control}
           getValues={getValues}
           ref={register}
