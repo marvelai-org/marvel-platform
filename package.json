@@ -19,5 +19,8 @@
   },
   "devDependencies": {
     "firebase-tools": "^9.10.0"
+  },
+  "dependencies": {
+    "framer-motion": "^11.9.0"
   }
 }

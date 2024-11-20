@@ -1,6 +1,7 @@
 import { createContext, useEffect, useMemo, useState } from 'react';
 
 import { onAuthStateChanged } from 'firebase/auth';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { Provider, useDispatch } from 'react-redux';
 
 import useRedirect from '@/hooks/useRedirect';
@@ -46,7 +47,17 @@ const AuthProvider = (props) => {
       if (user) {
         // Get auth user claims
         const { claims } = await user.getIdTokenResult(true);
-        return dispatch(setUser({ ...user.toJSON(), claims }));
+        dispatch(setUser({ ...user.toJSON(), claims }));
+
+        // Set up listener for user data changes
+        const userDocRef = doc(firestore, 'users', user.uid);
+        const unsubscribeUser = onSnapshot(userDocRef, (snapshot) => {
+          if (snapshot.exists()) {
+            dispatch(setUserData(snapshot.data()));
+          }
+        });
+
+        return () => unsubscribeUser();
       }
 
       dispatch(setLoading(false));
@@ -57,7 +68,7 @@ const AuthProvider = (props) => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [dispatch]);
 
   useRedirect(firestore, functions, handleOpenSnackBar);
 

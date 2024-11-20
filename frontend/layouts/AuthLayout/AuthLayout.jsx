@@ -23,9 +23,7 @@ import { setLoading } from '@/redux/slices/authSlice';
  * @param {ReactNode} props.children - The child components to be wrapped
  * @return {JSX.Element} The React component to be rendered
  */
-const AuthLayout = (props) => {
-  const { children, isAuthScreen } = props;
-
+const AuthLayout = ({ children, isAuthScreen, ...props }) => {
   const dispatch = useDispatch();
 
   const authUser = useSelector((state) => state.auth);
@@ -98,12 +96,11 @@ const AuthLayout = (props) => {
   if (isTabletScreen) return <AppDisabled head={renderHead()} />;
 
   return (
-    <Grid {...styles.mainGridProps}>
+    <Grid {...styles.mainGridProps} {...props}>
       {renderHead()}
       {renderBgImage()}
       {renderArtifacts()}
-      {isAuthScreen && renderCard()}
-      {!isAuthScreen && children}
+      {isAuthScreen ? renderCard() : children}
     </Grid>
   );
 };

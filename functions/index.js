@@ -5,6 +5,7 @@ admin.initializeApp();
 
 const userController = require('./controllers/userController');
 const marvelAIController = require('./controllers/marvelAIController');
+const onboardingController = require('./controllers/onboardingController');
 const { seedDatabase } = require('./cloud_db_seed');
 
 seedDatabase();
@@ -15,7 +16,7 @@ seedDatabase();
 const migrationScripts = {};
 
 module.exports = {
-  /* Authenticaition */
+  /* Authentication */
   signUpUser: userController.signUpUser,
 
   /* Marvel AI */
@@ -24,4 +25,9 @@ module.exports = {
   createChatSession: marvelAIController.createChatSession,
   /* Migration Scripts - For running  */
   ...migrationScripts,
+
+  /* Onboarding */
+  advanceOnboardingStatus: onboardingController.advanceOnboardingStatus,
+  setupUserProfile: onboardingController.setupUserProfile,
+  setupUserSystemConfig: onboardingController.setupUserSystemConfig,
 };

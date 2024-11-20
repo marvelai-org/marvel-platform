@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import AuthForm from '@/components/AuthForm';
-import AuthLayout from '@/layouts/AuthLayout';
 
 import ForgotPasswordPage from '@/templates/SignIn/ForgotPasswordPage';
 import SignInForm from '@/templates/SignIn/SignInForm';
@@ -38,10 +37,6 @@ const SignIn = () => {
       {!isSignIn && <ForgotPasswordPage handleSwitch={handleSwitchScreen} />}
     </>
   );
-};
-
-SignIn.getLayout = function getLayout(page) {
-  return <AuthLayout isAuthScreen>{page}</AuthLayout>;
 };
 
 export default SignIn;

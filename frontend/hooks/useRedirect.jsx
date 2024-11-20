@@ -9,6 +9,7 @@ import ALERT_COLORS from '@/constants/notification';
 import ROUTES from '@/constants/routes';
 
 import { setEmailVerified, setLoading } from '@/redux/slices/authSlice';
+import { setGlobalLoading } from '@/redux/slices/loadingSlice';
 import { auth } from '@/redux/store';
 import { fetchToolHistory } from '@/redux/thunks/toolHistory';
 import fetchUserData from '@/redux/thunks/user';
@@ -23,8 +24,25 @@ const useRedirect = (firestore, functions, handleOpenSnackBar) => {
   const { data: authData, loading } = useSelector((state) => state.auth);
 
   const fetchUserRelatedData = async (id) => {
-    dispatch(fetchUserData({ firestore, id }));
-    dispatch(fetchToolHistory());
+    dispatch(setGlobalLoading(true));
+
+    const userData = await dispatch(fetchUserData({ firestore, id }));
+
+    if (userData.meta.requestStatus === 'fulfilled') {
+      const user = userData.payload;
+      const isOnboardingComplete = user?.onboarding
+        ? Object.values(user.onboarding).every((step) => step === true)
+        : false;
+
+      if (!isOnboardingComplete && route !== ROUTES.ONBOARDING) {
+        router.push(ROUTES.ONBOARDING);
+        dispatch(setGlobalLoading(false));
+        return;
+      }
+    }
+    await dispatch(fetchToolHistory());
+
+    dispatch(setGlobalLoading(false));
   };
 
   useEffect(() => {

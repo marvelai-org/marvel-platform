@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import MainAppLayout from '@/layouts/MainAppLayout';
 import HomePage from '@/templates/HomePage';
 
 import fetchTools from '@/redux/thunks/tools';
@@ -17,10 +16,6 @@ const Home = () => {
   }, []);
 
   return <HomePage data={data} loading={loading} error={error} />;
-};
-
-Home.getLayout = function getLayout(page) {
-  return <MainAppLayout>{page}</MainAppLayout>;
 };
 
 export default Home;
