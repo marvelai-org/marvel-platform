@@ -1,18 +1,17 @@
 import { Fade, Grid, Typography } from '@mui/material';
 
-// import { useSelector } from 'react-redux';
-
 import { useSelector } from 'react-redux';
 
 import FillInTheBlankOutput, {
   AnswerKey as AnswerKeyFillInTheBlank,
 } from './children/FillInTheBlankOutput';
+import MultipleChoiceQuizOutput, {
+  AnswerKey as AnswerKeyMultipleChoice,
+} from './children/MultipleChoiceQuiz';
 import styles from './styles';
 
 const WorksheetGeneratorResponse = () => {
   const { response } = useSelector((state) => state.tools);
-
-  const fillInTheBlanks = response?.fill_in_the_blank;
 
   const hasTitle = false;
 
@@ -27,7 +26,10 @@ const WorksheetGeneratorResponse = () => {
   const renderQuestions = () => {
     return (
       <Grid {...styles.questionsGridProps}>
-        <FillInTheBlankOutput questions={fillInTheBlanks} />
+        <FillInTheBlankOutput questions={response?.fill_in_the_blank} />
+        <MultipleChoiceQuizOutput
+          questions={response?.multiple_choice_question}
+        />
       </Grid>
     );
   };
@@ -36,7 +38,10 @@ const WorksheetGeneratorResponse = () => {
     return (
       <Grid {...styles.questionsGridProps}>
         <Typography {...styles.keyTitleProps}>Answer Key:</Typography>
-        <AnswerKeyFillInTheBlank questions={fillInTheBlanks} />
+        <AnswerKeyFillInTheBlank questions={response?.fill_in_the_blank} />
+        <AnswerKeyMultipleChoice
+          questions={response?.multiple_choice_question}
+        />
       </Grid>
     );
   };

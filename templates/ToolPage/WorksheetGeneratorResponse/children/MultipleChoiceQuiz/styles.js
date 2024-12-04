@@ -1,7 +1,13 @@
 const styles = {
+  sectionHighlightTitleProps: {
+    component: 'span',
+    fontFamily: 'Satoshi Bold',
+    fontSize: 'inherit',
+  },
   sectionTitle: {
-    fontFamily: 'Satoshi Medium',
-    fontSize: { laptop: '20px', desktop: '24px' },
+    component: 'span',
+    fontFamily: 'Satoshi Bold',
+    fontSize: 'inherit',
   },
   questionTextProps: {
     fontFamily: 'Satoshi Regular',
