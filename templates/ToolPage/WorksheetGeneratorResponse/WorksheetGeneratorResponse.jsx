@@ -7,7 +7,10 @@ import FillInTheBlankOutput, {
 } from './children/FillInTheBlankOutput';
 import MultipleChoiceQuizOutput, {
   AnswerKey as AnswerKeyMultipleChoice,
-} from './children/MultipleChoiceQuiz';
+} from './children/MultipleChoiceQuizOutput';
+import OpenEndedOutput, {
+  AnswerKey as AnswerKeyOpenEnded,
+} from './children/OpenEndedOutput';
 import styles from './styles';
 
 const WorksheetGeneratorResponse = () => {
@@ -30,6 +33,7 @@ const WorksheetGeneratorResponse = () => {
         <MultipleChoiceQuizOutput
           questions={response?.multiple_choice_question}
         />
+        <OpenEndedOutput questions={response?.open_ended} />
       </Grid>
     );
   };
@@ -42,6 +46,7 @@ const WorksheetGeneratorResponse = () => {
         <AnswerKeyMultipleChoice
           questions={response?.multiple_choice_question}
         />
+        <AnswerKeyOpenEnded questions={response?.open_ended} />
       </Grid>
     );
   };

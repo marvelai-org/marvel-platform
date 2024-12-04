@@ -1,4 +1,4 @@
 import AnswerKey from './AnswerKey';
-import MultipleChoiceQuizOutput from './MultipleChoiceQuiz';
+import MultipleChoiceQuizOutput from './OpenEndedOutput';
 
 export { MultipleChoiceQuizOutput as default, AnswerKey };
