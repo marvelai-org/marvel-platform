@@ -39,7 +39,7 @@ const MultipleChoiceQuiz = ({ questions }) => {
 
   const renderChoices = (choices, questionNo) => {
     return (
-      <Typography {...styles.questionTextProps}>
+      <Typography ml={2} {...styles.questionTextProps}>
         {choices?.map((choice, choiceIndex) => (
           <Typography
             key={`Q${questionNo}-${choiceIndex}`}
