@@ -5,6 +5,9 @@ import { useSelector } from 'react-redux';
 import FillInTheBlankOutput, {
   AnswerKey as AnswerKeyFillInTheBlank,
 } from './children/FillInTheBlankOutput';
+import MathExerciseOutput, {
+  AnswerKey as AnswerKeyMath,
+} from './children/MathExerciseOutput';
 import MultipleChoiceQuizOutput, {
   AnswerKey as AnswerKeyMultipleChoice,
 } from './children/MultipleChoiceQuizOutput';
@@ -34,6 +37,7 @@ const WorksheetGeneratorResponse = () => {
           questions={response?.multiple_choice_question}
         />
         <OpenEndedOutput questions={response?.open_ended} />
+        <MathExerciseOutput questions={response?.math_exercises} />
       </Grid>
     );
   };
@@ -47,6 +51,7 @@ const WorksheetGeneratorResponse = () => {
           questions={response?.multiple_choice_question}
         />
         <AnswerKeyOpenEnded questions={response?.open_ended} />
+        <AnswerKeyMath questions={response?.math_exercises} />
       </Grid>
     );
   };
