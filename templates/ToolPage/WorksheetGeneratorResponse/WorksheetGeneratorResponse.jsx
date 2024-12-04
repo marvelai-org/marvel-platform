@@ -4,10 +4,15 @@ import { Fade, Grid, Typography } from '@mui/material';
 
 import { useSelector } from 'react-redux';
 
+import FillInTheBlankOutput, {
+  AnswerKey as AnswerKeyFillInTheBlank,
+} from './children/FillInTheBlankOutput';
 import styles from './styles';
 
 const WorksheetGeneratorResponse = () => {
   const { response } = useSelector((state) => state.tools);
+
+  const fillInTheBlanks = response?.fill_in_the_blank;
 
   const hasTitle = false;
 
@@ -20,7 +25,20 @@ const WorksheetGeneratorResponse = () => {
   };
 
   const renderQuestions = () => {
-    return <Grid {...styles.questionsGridProps}>{response}</Grid>;
+    return (
+      <Grid {...styles.questionsGridProps}>
+        <FillInTheBlankOutput questions={fillInTheBlanks} />
+      </Grid>
+    );
+  };
+
+  const renderAnswerKeys = () => {
+    return (
+      <Grid {...styles.questionsGridProps}>
+        <Typography {...styles.keyTitleProps}>Answer Key:</Typography>
+        <AnswerKeyFillInTheBlank questions={fillInTheBlanks} />
+      </Grid>
+    );
   };
 
   return (
@@ -28,6 +46,7 @@ const WorksheetGeneratorResponse = () => {
       <Grid {...styles.mainGridProps}>
         {hasTitle && renderTitle()}
         {renderQuestions()}
+        {renderAnswerKeys()}
       </Grid>
     </Fade>
   );
