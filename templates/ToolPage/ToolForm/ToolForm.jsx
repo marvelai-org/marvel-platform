@@ -277,11 +277,7 @@ const ToolForm = (props) => {
     const { name: inputName, label, placeholder } = inputProps;
 
     return (
-      <Grid
-        key={inputName}
-        {...styles.inputGridProps}
-        style={{ paddingTop: '0px', marginBottom: '20px' }}
-      >
+      <Grid key={inputName} {...styles.inputGridProps} sx={{ mb: 3, mt: 0 }}>
         <PrimaryDatePickerInput
           id={inputName}
           name={inputName}
@@ -291,6 +287,7 @@ const ToolForm = (props) => {
           helperText={errors?.[inputName]?.message}
           control={control}
           setValue={setValue}
+          ref={register}
           validation={{
             required: 'Please select a date.',
           }}

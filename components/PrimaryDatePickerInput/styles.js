@@ -10,7 +10,7 @@ const styles = {
     sx: {
       color: error ? 'red' : 'white',
       fontFamily: 'Satoshi Bold',
-      fontSize: { laptop: '18px', desktop: '20px' },
+      fontSize: { laptop: '14px', desktop: '16px' },
     },
   }),
   inputProps: (error, extraInputProps) => ({
