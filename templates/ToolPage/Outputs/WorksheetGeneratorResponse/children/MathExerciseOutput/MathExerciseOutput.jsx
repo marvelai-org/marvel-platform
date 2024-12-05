@@ -7,9 +7,9 @@ const MathExerciseOutput = ({ questions }) => {
 
   const renderTitle = () => {
     return (
-      <Typography sx={{ fontSize: '20px' }}>
+      <Typography {...styles.titleProps}>
         <Typography {...styles.sectionTitle}>
-          Math Exercise Questions:{' '}
+          Math Exercise Questions:
         </Typography>
         Answer the following questions
       </Typography>

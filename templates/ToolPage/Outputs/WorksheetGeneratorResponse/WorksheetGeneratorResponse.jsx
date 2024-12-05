@@ -14,6 +14,10 @@ import MultipleChoiceQuizOutput, {
 import OpenEndedOutput, {
   AnswerKey as AnswerKeyOpenEnded,
 } from './children/OpenEndedOutput';
+import RelateConceptOutput, {
+  AnswerKey as AnswerKeyRelateConcept,
+} from './children/RelateConceptOutput';
+
 import styles from './styles';
 
 const WorksheetGeneratorResponse = () => {
@@ -38,6 +42,7 @@ const WorksheetGeneratorResponse = () => {
         />
         <OpenEndedOutput questions={response?.open_ended} />
         <MathExerciseOutput questions={response?.math_exercises} />
+        <RelateConceptOutput questions={response?.relate_concepts} />
       </Grid>
     );
   };
@@ -45,13 +50,14 @@ const WorksheetGeneratorResponse = () => {
   const renderAnswerKeys = () => {
     return (
       <Grid {...styles.questionsGridProps}>
-        <Typography {...styles.keyTitleProps}>Answer Key:</Typography>
+        <Typography {...styles.keyTitleProps}>Answer Key</Typography>
         <AnswerKeyFillInTheBlank questions={response?.fill_in_the_blank} />
         <AnswerKeyMultipleChoice
           questions={response?.multiple_choice_question}
         />
         <AnswerKeyOpenEnded questions={response?.open_ended} />
         <AnswerKeyMath questions={response?.math_exercises} />
+        <AnswerKeyRelateConcept questions={response?.relate_concepts} />
       </Grid>
     );
   };

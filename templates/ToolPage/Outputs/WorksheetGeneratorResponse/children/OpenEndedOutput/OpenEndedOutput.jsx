@@ -21,7 +21,7 @@ const OpenEndedOutput = ({ questions }) => {
 
   const renderTitle = () => {
     return (
-      <Typography sx={{ fontSize: '20px' }}>
+      <Typography {...styles.titleProps}>
         <Typography {...styles.sectionTitle}>Open Ended Questions: </Typography>
         Answer the following questions in complete sentences
       </Typography>

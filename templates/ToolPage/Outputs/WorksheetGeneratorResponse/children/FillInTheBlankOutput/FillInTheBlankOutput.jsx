@@ -31,7 +31,7 @@ const FillInTheBlankOutput = ({ questions }) => {
 
   const renderTitle = () => {
     return (
-      <Typography sx={{ fontSize: '20px' }}>
+      <Typography {...styles.titleProps}>
         <Typography {...styles.sectionTitle}>Fill in the Blank</Typography>:
         Fill in the blank with the correct words.
       </Typography>

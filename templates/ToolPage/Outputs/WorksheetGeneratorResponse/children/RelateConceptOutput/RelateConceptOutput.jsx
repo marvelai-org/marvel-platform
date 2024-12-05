@@ -3,28 +3,27 @@ import { Grid, Typography } from '@mui/material';
 import styles from './styles';
 
 /**
- * Renders a multiple choice quiz with a list of questions.
+ * A React component that displays a series of relate concept questions.
  *
- * @param {Object} props - Component properties.
- * @param {Array} props.questions - Array of multiple choice questions.
- * Each question object should contain:
- *   - question: The question text.
- *   - choices: An array of answer choices.
+ * @param {Object[]} questions - An array of question objects to display.
+ * @param {string} questions[].question - The question text.
+ * @param {Object[]} questions[].choices - An array of choice objects to display.
+ * @param {string} questions[].choices[].term - The term to match with a meaning.
+ * @param {string} questions[].choices[].meaning - The meaning of the term.
  *
- * If no questions are provided, the component returns null.
- * The quiz displays a title and iterates over the questions array,
- * rendering each question along with its choices.
+ * @returns {JSX.Element|null} A grid layout containing formatted questions and
+ *   pairs of terms and meanings to match.
  */
-const MultipleChoiceQuiz = ({ questions }) => {
+const RelateConceptOutput = ({ questions }) => {
   if (!questions) return null;
 
   const renderTitle = () => {
     return (
       <Typography {...styles.titleProps}>
         <Typography {...styles.sectionTitle}>
-          Multiple Choice Questions:
+          Relate Concepts Questions
         </Typography>
-        Choose the correct answer from the choices for each question.
+        : Match the given terms with their correct meanings from a set of pairs.
       </Typography>
     );
   };
@@ -37,18 +36,18 @@ const MultipleChoiceQuiz = ({ questions }) => {
     );
   };
 
-  const renderChoices = (choices, questionNo) => {
+  const renderPairs = (pairs, questionNo) => {
     return (
       <Typography ml={2} {...styles.questionTextProps}>
-        {choices?.map((choice, choiceIndex) => (
+        {pairs?.map((choice, choiceIndex) => (
           <Typography
             key={`Q${questionNo}-${choiceIndex}`}
-            sx={{ width: '100%', mb: 1 }}
+            {...styles.pairGroupProps}
           >
             <Typography {...styles.highlightTextProps}>
-              {`${choice?.key}) `}
+              {`${choice?.term}) `}
             </Typography>
-            {choice?.value}
+            {choice?.meaning}
           </Typography>
         ))}
       </Typography>
@@ -61,11 +60,11 @@ const MultipleChoiceQuiz = ({ questions }) => {
       {Object.values(questions).map((mcq, i) => (
         <Grid item key={i} mobileSmall={12} {...styles.questionGridProps}>
           {renderQuestion(mcq?.question, i + 1)}
-          {renderChoices(mcq?.choices, i + 1)}
+          {renderPairs(mcq?.choices, i + 1)}
         </Grid>
       ))}
     </Grid>
   );
 };
 
-export default MultipleChoiceQuiz;
+export default RelateConceptOutput;

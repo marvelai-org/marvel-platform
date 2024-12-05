@@ -24,7 +24,7 @@ const styles = {
     gap: 1.5,
     ml: 2.5,
     mobileSmall: 12,
-    fontSize: { laptop: '16px', desktop: '18px' },
+    fontSize: '16px',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -40,6 +40,11 @@ const styles = {
   highlightTextProps: {
     component: 'span',
     sx: { fontFamily: 'Satoshi Bold', fontSize: 'inherit' },
+  },
+  pairGroupProps: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
   },
 };
 

@@ -19,10 +19,15 @@ const styles = {
     gap: 1.5,
     ml: 2.5,
     mobileSmall: 12,
-    fontSize: { laptop: '16px', desktop: '18px' },
+    fontSize: '16px',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
+  },
+  titleProps: {
+    fontSize: '20px',
+    display: 'flex',
+    flexDirection: 'column',
   },
   questionsGridProps: {
     container: true,
