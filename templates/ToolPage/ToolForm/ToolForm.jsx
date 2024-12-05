@@ -156,7 +156,14 @@ const ToolForm = (props) => {
   };
 
   const renderTextInput = (inputProps) => {
-    const { name: inputName, placeholder, tooltip, label } = inputProps;
+    const {
+      name: inputName,
+      placeholder,
+      tooltip,
+      label,
+      multiline,
+      rows,
+    } = inputProps;
     const renderLabel = () => (
       <Grid {...styles.textFieldLabelGridProps}>
         <Typography {...styles.labelProps(errors?.[inputName])}>
@@ -175,6 +182,8 @@ const ToolForm = (props) => {
         <PrimaryTextFieldInput
           id={inputName}
           name={inputName}
+          multiline={multiline}
+          rows={rows}
           title={renderLabel()}
           error={errors?.[inputName]}
           control={control}

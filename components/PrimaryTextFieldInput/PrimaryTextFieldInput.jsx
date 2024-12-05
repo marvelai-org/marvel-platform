@@ -30,6 +30,8 @@ const PrimaryTextFieldInput = forwardRef((props, ref) => {
     isDescription,
     description,
     borderColor,
+    multiline = false,
+    rows = 3,
     extraInputProps,
     extraInputLabelProps,
     ...otherProps
@@ -40,8 +42,12 @@ const PrimaryTextFieldInput = forwardRef((props, ref) => {
     label: title,
     fullWidth: true,
     helperText,
-    InputLabelProps: styles.inputLabelProps(error, extraInputLabelProps),
-    InputProps: styles.inputProps(error, extraInputProps),
+    InputLabelProps: styles.inputLabelProps(
+      error,
+      extraInputLabelProps,
+      multiline
+    ),
+    InputProps: styles.inputProps(error, extraInputProps, multiline),
     FormHelperTextProps: styles.helperTextProps(isDescription, error),
     autoComplete: 'off',
     placeholder,
@@ -50,6 +56,9 @@ const PrimaryTextFieldInput = forwardRef((props, ref) => {
   return (
     <TextFieldElement
       inputRef={ref}
+      multiline={multiline}
+      rows={multiline && rows}
+      sx={multiline && { my: 2 }}
       {...TextFieldElementConfig}
       {...otherProps}
     />
