@@ -16,6 +16,7 @@ const WritingFeedbackResponse = () => {
   };
 
   const renderSection = (section) => {
+    if (!section) return null;
     return (
       <Grid {...styles.gridProps}>
         <Typography {...styles.keyTitleProps}>{section.title}</Typography>
@@ -34,9 +35,9 @@ const WritingFeedbackResponse = () => {
     <Fade in>
       <Grid {...styles.mainGridProps}>
         {renderTitle()}
-        {renderSection(response.areas_of_strength)}
-        {renderSection(response.areas_for_growth)}
-        {renderSection(response.general_feedback)}
+        {renderSection(response?.areas_of_strength)}
+        {renderSection(response?.areas_for_growth)}
+        {renderSection(response?.general_feedback)}
       </Grid>
     </Fade>
   );
