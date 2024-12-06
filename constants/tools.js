@@ -7,6 +7,8 @@ const TOOLS_ID = {
   RUBRIC_GENERATOR: '9',
   REWRITE_TEXT: '7',
   NOTES_GENERATOR: '10',
+  LESSON_GENERATOR: '3',
+  CONNECT_WITH_THEM: '4',
 };
 
 export { TOOLS_ID };

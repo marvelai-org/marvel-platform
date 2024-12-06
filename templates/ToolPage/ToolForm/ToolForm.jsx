@@ -199,7 +199,15 @@ const ToolForm = (props) => {
   };
 
   const renderNumberInput = (inputProps) => {
-    const { name: inputName, placeholder, tooltip, label } = inputProps;
+    const {
+      name: inputName,
+      placeholder,
+      tooltip,
+      label,
+      min,
+      max,
+    } = inputProps;
+
     const renderLabel = () => (
       <Grid {...styles.textFieldLabelGridProps}>
         <Typography {...styles.labelProps(errors?.[inputName])}>
@@ -228,6 +236,14 @@ const ToolForm = (props) => {
           }}
           validation={{
             required: 'Field is required',
+            min: {
+              value: min,
+              message: `Please enter a value greater than or equal to ${min}`,
+            },
+            max: {
+              value: max,
+              message: `Please enter a value less than or equal to ${max}`,
+            },
           }}
           ref={register}
         />
