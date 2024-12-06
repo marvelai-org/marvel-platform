@@ -56,10 +56,10 @@ const RubricGeneratorResponse = () => {
       <Grid {...styles.mainGridProps}>
         {renderTitle()}
         {renderGradeLevel()}
-        {response.criterias.map((criteria, index) =>
+        {response?.criterias.map((criteria, index) =>
           renderRubricCriteria(criteria, index)
         )}
-        <Typography {...styles.feedbackProps}>{response.feedback}</Typography>
+        <Typography {...styles.feedbackProps}>{response?.feedback}</Typography>
       </Grid>
     </Fade>
   );

@@ -1,6 +1,7 @@
 import { TOOLS_ID } from '@/constants/tools';
 
 import AIResistantResponse from './AIResistantResponse';
+import ConnectWithThemResponse from './ConnectWithThemResponse';
 import FlashCardList from './FlashCardList';
 import QuizResponse from './QuizResponse';
 import RubricGeneratorResponse from './RubricGeneratorResponse';
@@ -16,6 +17,7 @@ const RESPONSE_OUTPUTS = {
   [TOOLS_ID.AI_RESISTANCE_ASSIGNMENTS_GENERATOR]: AIResistantResponse,
   [TOOLS_ID.WRITING_FEEDBACK_GENERATOR]: WritingFeedbackResponse,
   [TOOLS_ID.RUBRIC_GENERATOR]: RubricGeneratorResponse,
+  [TOOLS_ID.CONNECT_WITH_THEM]: ConnectWithThemResponse,
 };
 
 export default RESPONSE_OUTPUTS;
