@@ -51,6 +51,10 @@ const styles = {
     fontFamily: 'Satoshi Regular',
     fontSize: { laptop: '18px', desktop: '20px' },
   },
+  keyTitleProps: {
+    fontSize: '20px',
+    fontFamily: 'Satoshi Bold',
+  },
 };
 
 export default styles;

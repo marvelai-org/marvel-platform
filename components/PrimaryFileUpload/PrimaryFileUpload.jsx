@@ -12,7 +12,7 @@ import styles from './styles';
  * @param {object} props - The properties for the component.
  * @param {string} props.id - The id of the input field.
  * @param {string} props.placeholder - The placeholder text.
- * @param {string} props.label - The label on the input.
+ * @param {string} props.title - The label on the input.
  * @param {string} props.color - The theme color of the input field.
  * @param {string} props.bgColor - The background color of the input component.
  * @param {array} props.menuList- The array of menu items that are needed in the drop down menu.
@@ -33,6 +33,8 @@ const PrimaryFileUpload = forwardRef((props, ref) => {
     bgColor,
     control,
     setValue,
+    showCheckbox = false,
+    showChips = true,
     multiple,
     error,
   } = props;
@@ -125,13 +127,13 @@ const PrimaryFileUpload = forwardRef((props, ref) => {
         multiple
         control={control}
         displayEmpty
-        showCheckbox={false}
-        showChips
+        showCheckbox={showCheckbox}
+        showChips={showChips}
         preserveOrder={false}
-        {...styles.selectInputProps(color, bgColor)}
         formControlProps={{
           disabled: true,
         }}
+        {...styles.selectInputProps(color, bgColor)}
       />
       <input
         type="file"
