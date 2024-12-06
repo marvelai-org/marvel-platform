@@ -5,6 +5,7 @@ import FlashCardList from './FlashCardList';
 import QuizResponse from './QuizResponse';
 import SyllabusGeneratorResponse from './SyllabusGeneratorResponse';
 import WorksheetGeneratorResponse from './WorksheetGeneratorResponse';
+import WritingFeedbackResponse from './WritingFeedbackResponse';
 
 const RESPONSE_OUTPUTS = {
   [TOOLS_ID.FLASHCARDS_GENERATOR]: FlashCardList,
@@ -12,6 +13,7 @@ const RESPONSE_OUTPUTS = {
   [TOOLS_ID.WORKSHEET_GENERATOR]: WorksheetGeneratorResponse,
   [TOOLS_ID.SYLLABUS_GENERATOR]: SyllabusGeneratorResponse,
   [TOOLS_ID.AI_RESISTANCE_ASSIGNMENTS_GENERATOR]: AIResistantResponse,
+  [TOOLS_ID.WRITING_FEEDBACK_GENERATOR]: WritingFeedbackResponse,
 };
 
 export default RESPONSE_OUTPUTS;
