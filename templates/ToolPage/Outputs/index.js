@@ -3,6 +3,7 @@ import { TOOLS_ID } from '@/constants/tools';
 import AIResistantResponse from './AIResistantResponse';
 import FlashCardList from './FlashCardList';
 import QuizResponse from './QuizResponse';
+import RubricGeneratorResponse from './RubricGeneratorResponse';
 import SyllabusGeneratorResponse from './SyllabusGeneratorResponse';
 import WorksheetGeneratorResponse from './WorksheetGeneratorResponse';
 import WritingFeedbackResponse from './WritingFeedbackResponse';
@@ -14,6 +15,7 @@ const RESPONSE_OUTPUTS = {
   [TOOLS_ID.SYLLABUS_GENERATOR]: SyllabusGeneratorResponse,
   [TOOLS_ID.AI_RESISTANCE_ASSIGNMENTS_GENERATOR]: AIResistantResponse,
   [TOOLS_ID.WRITING_FEEDBACK_GENERATOR]: WritingFeedbackResponse,
+  [TOOLS_ID.RUBRIC_GENERATOR]: RubricGeneratorResponse,
 };
 
 export default RESPONSE_OUTPUTS;
