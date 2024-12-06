@@ -27,7 +27,7 @@ dayjs.extend(advancedFormat);
  *
  * @return {JSX.Element} - The rendered date picker input field component.
  */
-const PrimaryDatePickerInput = forwardRef((props) => {
+const PrimaryDatePickerInput = forwardRef((props, ref) => {
   const {
     id,
     error,
@@ -64,11 +64,11 @@ const PrimaryDatePickerInput = forwardRef((props) => {
       InputLabelProps={styles.inputLabelProps(error)}
       InputProps={styles.inputProps(error, extraInputProps)}
       FormHelperTextProps={styles.helperTextProps(false, error)}
-      {...otherProps}
       onChange={(date) => {
         const formattedDate = dayjs(date).format('MMMM, Do, YYYY');
         setValue(id, formattedDate);
       }}
+      {...otherProps}
     />
   );
 });

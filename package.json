@@ -24,6 +24,7 @@
     "@mui/x-date-pickers": "^6.5.0",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
+    "caniuse-lite": "^1.0.30001686",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "firebase": "^9.22.0",

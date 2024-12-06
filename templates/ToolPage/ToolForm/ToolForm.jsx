@@ -2,7 +2,6 @@ import { useContext } from 'react';
 
 import { Help } from '@mui/icons-material';
 import { Grid, Tooltip, Typography, useTheme } from '@mui/material';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 import { FormContainer, useForm, useWatch } from 'react-hook-form-mui';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +29,7 @@ import {
 import { firestore } from '@/redux/store';
 import { fetchToolHistory } from '@/redux/thunks/toolHistory';
 import submitPrompt from '@/services/tools/submitPrompt';
+import { prepareFormPayload, transformFormData } from '@/utils/ToolUtils';
 
 const ToolForm = (props) => {
   const { id, inputs } = props;
@@ -54,81 +54,23 @@ const ToolForm = (props) => {
 
   const handleSubmitMultiForm = async (values) => {
     try {
-      // eslint-disable-next-line no-console
-      console.log('Form submission started with values:', values);
       dispatch(setResponse(null));
       dispatch(setCommunicatorLoading(true));
 
-      let updateData = Object.entries(values).map(([name, originalValue]) => {
-        // Convert numeric strings to integers using Number.isNaN instead of isNaN
-        let value = originalValue;
-        if (
-          typeof originalValue === 'string' &&
-          !Number.isNaN(Number(originalValue.trim())) &&
-          originalValue.trim() !== ''
-        ) {
-          value = parseInt(originalValue.trim(), 10);
-        }
-        return { name, value };
-      });
+      // Transform the form data
+      const transformedData = transformFormData(values);
 
-      const fileUrls = [];
-      const fileInputs = inputs.filter(
-        (input) =>
-          input.type === INPUT_TYPES.FILE ||
-          input.type === INPUT_TYPES.FILE_TYPE_SELECTOR
-      );
-
-      // Replace for...of loop with Promise.all and map
-      const fileUploadPromises = fileInputs.map(async (input) => {
-        // omit previous values
-        updateData = updateData.filter(
-          (item) =>
-            item.name !== `${input.name}_file` &&
-            item.name !== `${input.name}_url` &&
-            item.name !== input.name
-        );
-        updateData.push({
-          name: `${input.name}_type`,
-          value: values[`${input.name}`].toLowerCase(),
-        });
-
-        const fileKey =
-          input.type === INPUT_TYPES.FILE_TYPE_SELECTOR
-            ? `${input.name}_file`
-            : input.name;
-        const files = watchedValues[fileKey];
-        if (files && files.length > 0) {
-          const storage = getStorage();
-          const uploadPromises = files.map(async (file) => {
-            const storageRef = ref(storage, `uploads/${file.name}`);
-            await uploadBytes(storageRef, file);
-            const url = await getDownloadURL(storageRef);
-            return url;
-          });
-          const urls = await Promise.all(uploadPromises);
-
-          if (input.type === INPUT_TYPES.FILE_TYPE_SELECTOR) {
-            fileUrls.push({ name: `${input.name}_url`, value: urls[0] });
-          } else {
-            fileUrls.push({ name: input.name, value: urls[0] });
-          }
-        }
-      });
-
-      await Promise.all(fileUploadPromises);
-
-      // Remove any existing file inputs from updateData to avoid duplicates
-      const finalData = [...updateData, ...fileUrls];
-
-      // eslint-disable-next-line no-console
-      console.log('Files uploaded, sending request to endpoint with data:', {
-        toolData: { toolId: id, inputs: finalData },
+      // Upload files from file and file type selector inputs and retrieve their URLs alongside the updatedData
+      const formData = await prepareFormPayload({
+        inputs,
+        transformedData,
+        values,
+        watchedValues,
       });
 
       const response = await submitPrompt(
         {
-          tool_data: { tool_id: id, inputs: finalData },
+          tool_data: { tool_id: id, inputs: formData },
           type: 'tool',
           user: {
             id: userData?.id,
@@ -139,9 +81,13 @@ const ToolForm = (props) => {
         dispatch
       );
 
+      // Set the response
       dispatch(setResponse(response));
+
       dispatch(setFormOpen(false));
       dispatch(setCommunicatorLoading(false));
+
+      // Fetch tool history
       dispatch(fetchToolHistory({ firestore }));
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -156,7 +102,14 @@ const ToolForm = (props) => {
   };
 
   const renderTextInput = (inputProps) => {
-    const { name: inputName, placeholder, tooltip, label } = inputProps;
+    const {
+      name: inputName,
+      placeholder,
+      tooltip,
+      label,
+      multiline,
+      rows,
+    } = inputProps;
     const renderLabel = () => (
       <Grid {...styles.textFieldLabelGridProps}>
         <Typography {...styles.labelProps(errors?.[inputName])}>
@@ -175,6 +128,8 @@ const ToolForm = (props) => {
         <PrimaryTextFieldInput
           id={inputName}
           name={inputName}
+          multiline={multiline}
+          rows={rows}
           title={renderLabel()}
           error={errors?.[inputName]}
           control={control}
@@ -190,7 +145,15 @@ const ToolForm = (props) => {
   };
 
   const renderNumberInput = (inputProps) => {
-    const { name: inputName, placeholder, tooltip, label } = inputProps;
+    const {
+      name: inputName,
+      placeholder,
+      tooltip,
+      label,
+      min,
+      max,
+    } = inputProps;
+
     const renderLabel = () => (
       <Grid {...styles.textFieldLabelGridProps}>
         <Typography {...styles.labelProps(errors?.[inputName])}>
@@ -219,6 +182,14 @@ const ToolForm = (props) => {
           }}
           validation={{
             required: 'Field is required',
+            min: {
+              value: min,
+              message: `Please enter a value greater than or equal to ${min}`,
+            },
+            max: {
+              value: max,
+              message: `Please enter a value less than or equal to ${max}`,
+            },
           }}
           ref={register}
         />
@@ -262,7 +233,7 @@ const ToolForm = (props) => {
   };
 
   const renderFileUpload = (inputProps) => {
-    const { name: inputName, label } = inputProps;
+    const { name: inputName, placeholder, label } = inputProps;
 
     return (
       <Grid key={inputName} {...styles.inputGridProps}>
@@ -270,18 +241,15 @@ const ToolForm = (props) => {
           id={inputName}
           name={inputName}
           multiple
-          placeholder="Choose Files to Upload"
-          label={label}
+          placeholder={placeholder || 'Choose Files to Upload'}
+          title={label}
           error={errors?.[inputName]}
           helperText={errors?.[inputName]?.message}
           color="purple"
           bgColor="#23252A"
           control={control}
-          getValues={() => watchedValues}
           ref={register}
           showChips
-          showCheckbox
-          displayEmpty
           setValue={setValue}
           validation={{
             required: 'Please upload a file.',
@@ -334,11 +302,7 @@ const ToolForm = (props) => {
     const { name: inputName, label, placeholder } = inputProps;
 
     return (
-      <Grid
-        key={inputName}
-        {...styles.inputGridProps}
-        style={{ paddingTop: '0px', marginBottom: '20px' }}
-      >
+      <Grid key={inputName} {...styles.inputGridProps} sx={{ mb: 3, mt: 0 }}>
         <PrimaryDatePickerInput
           id={inputName}
           name={inputName}
@@ -348,6 +312,7 @@ const ToolForm = (props) => {
           helperText={errors?.[inputName]?.message}
           control={control}
           setValue={setValue}
+          ref={register}
           validation={{
             required: 'Please select a date.',
           }}
@@ -375,9 +340,7 @@ const ToolForm = (props) => {
   const renderInput = (inputProps) => {
     const { condition, type } = inputProps;
 
-    if (!evaluateCondition(condition, watchedValues)) {
-      return null;
-    }
+    if (!evaluateCondition(condition, watchedValues)) return null;
 
     switch (type) {
       case INPUT_TYPES.TEXT:

@@ -1,3 +1,22 @@
+/**
+ * Evaluate a condition object against a set of values.
+ *
+ * @param {Object} condition the condition object
+ * @param {Object} values the values to evaluate against
+ * @param {boolean} [debug=false] whether to log debug information
+ * @returns {boolean} whether the condition evaluates to true
+ *
+ * Condition format:
+ * {
+ *   or: [{ field: string, operator: string, value: any }, ...],
+ *   and: [{ field: string, operator: string, value: any }, ...]
+ * }
+ *
+ * Operators:
+ * - 'equals': whether the field value equals the given value
+ * - 'notEmpty': whether the field value is not empty
+ * - 'greaterThan': whether the field value is greater than the given value
+ */
 const evaluateCondition = (condition, values, debug = false) => {
   if (!condition) return true; // No condition means always show
 

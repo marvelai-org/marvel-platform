@@ -4,6 +4,8 @@ import { connectAuthEmulator, getAuth } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 
+import { getStorage } from 'firebase/storage';
+
 import firebaseConfig from './config';
 
 const app = initializeApp(firebaseConfig);
@@ -11,6 +13,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 const functions = getFunctions(app);
+const storage = getStorage(app);
 
 const EMULATOR_HOST = 'localhost';
 const EMULATOR_PORTS = {
@@ -57,4 +60,4 @@ async function conditionallyConnectEmulators() {
 
 conditionallyConnectEmulators();
 
-export { auth, firestore, functions };
+export { auth, firestore, functions, storage };

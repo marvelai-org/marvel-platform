@@ -7,6 +7,7 @@ const styles = {
     alignItems: 'center',
     mobileSmall: 12,
     rowSpacing: 3,
+    mb: 2,
   },
   mainContentGridProps: {
     container: true,
