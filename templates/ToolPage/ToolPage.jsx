@@ -13,24 +13,12 @@ import GradientOutlinedButton from '@/components/GradientOutlinedButton';
 
 import ROUTES from '@/constants/routes';
 
-import { TOOLS_ID } from '@/constants/tools';
-
-import FlashCardList from './FlashCardList';
-import QuizResponse from './QuizResponse';
+import ToolOutputs from './Outputs';
 import styles from './styles';
-import SyllabusGeneratorResponse from './SyllabusGeneratorResponse';
 import ToolForm from './ToolForm';
-import WorksheetGeneratorResponse from './WorksheetGeneratorResponse';
 
 import { resetCommunicator, setFormOpen } from '@/redux/slices/toolsSlice';
 import theme from '@/theme/theme';
-
-const RESPONSE_OUTPUTS = {
-  [TOOLS_ID.FLASHCARDS_GENERATOR]: FlashCardList,
-  [TOOLS_ID.QUIZ_GENERATOR]: QuizResponse,
-  [TOOLS_ID.WORKSHEET_GENERATOR]: WorksheetGeneratorResponse,
-  [TOOLS_ID.SYLLABUS_GENERATOR]: SyllabusGeneratorResponse,
-};
 
 const ToolPage = (props) => {
   const { toolDoc } = props;
@@ -82,7 +70,7 @@ const ToolPage = (props) => {
     );
   };
 
-  const ToolOutputComponent = RESPONSE_OUTPUTS[id];
+  const ToolOutputComponent = ToolOutputs[id];
 
   return (
     <Grid {...styles.mainGridProps}>
