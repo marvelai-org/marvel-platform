@@ -3,6 +3,7 @@ import { TOOLS_ID } from '@/constants/tools';
 import AIResistantResponse from './AIResistantResponse';
 import ConnectWithThemResponse from './ConnectWithThemResponse';
 import FlashCardList from './FlashCardList';
+import LessonPlannerResponse from './LessonPlannerResponse';
 import PresentationGenerator from './PresentationGenerator';
 import QuizResponse from './QuizResponse';
 import RubricGeneratorResponse from './RubricGeneratorResponse';
@@ -20,6 +21,7 @@ const RESPONSE_OUTPUTS = {
   [TOOLS_ID.RUBRIC_GENERATOR]: RubricGeneratorResponse,
   [TOOLS_ID.CONNECT_WITH_THEM]: ConnectWithThemResponse,
   [TOOLS_ID.PRESENTATION_GENERATOR]: PresentationGenerator,
+  [TOOLS_ID.LESSON_GENERATOR]: LessonPlannerResponse,
 };
 
 export default RESPONSE_OUTPUTS;
