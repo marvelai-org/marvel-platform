@@ -4,27 +4,36 @@ const styles = {
       width: '100%',
     },
   },
-  inputProps: (error, extraInputProps) => ({
+  inputProps: (error, extraInputProps, multiline) => ({
     notched: false,
     error,
     autoComplete: 'off',
     sx: (theme) => ({
       fontFamily: 'Satoshi Bold',
       fontSize: { laptop: '14px', desktopMedium: '16px' },
-      background: '#23252A',
-      borderRadius: '15px',
-      color: '#AC92FF',
+      ...(!multiline && {
+        background: '#23252A',
+        borderRadius: '15px',
+        color: '#AC92FF',
+      }),
+      px: !multiline ? 1.5 : 0,
       height: '50px',
       ...extraInputProps,
       transition: theme.transitions.create('all'),
-      px: 1.5,
       fieldset: {
         transition: theme.transitions.create('all'),
+      },
+      textarea: {
+        background: '#23252A',
+        borderRadius: '15px',
+        color: '#AC92FF',
+        px: 3,
+        pt: 1,
       },
       '& .MuiOutlinedInput-notchedOutline': {
         border: 'none',
       },
-      '& input::placeholder': {
+      [`& ${multiline ? 'textarea' : 'input'}::placeholder`]: {
         fontStyle: 'italic',
         color: theme.palette.Background.gray,
       },
@@ -37,11 +46,11 @@ const styles = {
       },
     }),
   }),
-  inputLabelProps: (error, extraInputLabelProps) => ({
+  inputLabelProps: (error, extraInputLabelProps, multiline) => ({
     error,
     shrink: true,
     sx: {
-      top: '-14px',
+      top: multiline ? '-24px' : '-8px',
       color: 'white !important',
       fontFamily: 'Satoshi Bold',
       overflow: 'visible',

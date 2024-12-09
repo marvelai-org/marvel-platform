@@ -26,7 +26,11 @@ const styles = {
     fontFamily: 'Satoshi Bold',
     fontSize: { laptop: '20px', desktop: '24px' },
   },
-  questionsGridProps: {
+  gradeLevelProps: {
+    fontFamily: 'Satoshi Medium',
+    fontSize: { laptop: '18px', desktop: '20px' },
+  },
+  gridProps: {
     container: true,
     item: true,
     mobileSmall: 12,
@@ -50,6 +54,26 @@ const styles = {
   choiceProps: {
     fontFamily: 'Satoshi Regular',
     fontSize: { laptop: '18px', desktop: '20px' },
+  },
+  keyTitleProps: {
+    sx: {
+      width: '100%',
+      fontSize: '20px',
+      fontFamily: 'Satoshi Bold',
+    },
+  },
+  ideaTitleProps: {
+    sx: {
+      fontSize: '20px',
+      fontWeight: 'bold',
+      fontFamily: 'Satoshi Bold',
+    },
+  },
+  listItemProps: {
+    sx: {
+      fontFamily: 'Satoshi Regular',
+      '&::before': { content: '"•"', marginRight: 1 },
+    },
   },
 };
 
