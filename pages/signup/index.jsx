@@ -9,10 +9,10 @@ import AuthLayout from '@/layouts/AuthLayout';
 import SignUpForm from '@/templates/SignUp/SignUpForm';
 import VerifyEmailPage from '@/templates/SignUp/VerifyEmailPage';
 
-import { AUTH_STEPS } from '@/constants/auth';
-import ROUTES from '@/constants/routes';
-
 import sharedStyles from '@/styles/shared/sharedStyles';
+
+import { AUTH_STEPS } from '@/libs/constants/auth';
+import ROUTES from '@/libs/constants/routes';
 
 const TITLE_CONFIG = {
   main: 'sign up 🌟',

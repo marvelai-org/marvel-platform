@@ -10,22 +10,20 @@ import { useDispatch } from 'react-redux';
 import AuthTextField from '@/components/AuthTextField';
 import GradientOutlinedButton from '@/components/GradientOutlinedButton';
 
-import { AUTH_ERROR_MESSAGES } from '@/constants/auth';
-import ALERT_COLORS from '@/constants/notification';
-
-import ROUTES from '@/constants/routes';
-
 import styles from './styles';
 
 import sharedStyles from '@/styles/shared/sharedStyles';
 
-import { AuthContext } from '@/providers/GlobalProvider';
+import { AUTH_ERROR_MESSAGES } from '@/libs/constants/auth';
+import ALERT_COLORS from '@/libs/constants/notification';
+import ROUTES from '@/libs/constants/routes';
 
-import { setLoading } from '@/redux/slices/authSlice';
-import { auth, firestore } from '@/redux/store';
-import fetchUserData from '@/redux/thunks/user';
+import { AuthContext } from '@/libs/providers/GlobalProvider';
+import { setLoading } from '@/libs/redux/slices/authSlice';
+import { auth, firestore } from '@/libs/redux/store';
+import fetchUserData from '@/libs/redux/thunks/user';
 
-import AUTH_REGEX from '@/regex/auth';
+import AUTH_REGEX from '@/libs/regex/auth';
 
 const DEFAULT_FORM_VALUES = {
   email: '',

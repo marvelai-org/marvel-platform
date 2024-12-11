@@ -6,7 +6,7 @@ import AuthLayout from '@/layouts/AuthLayout';
 import ForgotPasswordPage from '@/templates/SignIn/ForgotPasswordPage';
 import SignInForm from '@/templates/SignIn/SignInForm';
 
-import ROUTES from '@/constants/routes';
+import ROUTES from '@/libs/constants/routes';
 
 const TITLE_CONFIG = {
   main: 'Sign in 🚀',

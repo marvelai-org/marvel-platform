@@ -12,18 +12,18 @@ import {
 import { confirmPasswordReset } from 'firebase/auth';
 import { useRouter } from 'next/router';
 
-import useWatchFields from '@/hooks/useWatchFields';
-
 import GradientOutlinedButton from '@/components/GradientOutlinedButton';
 import Loader from '@/components/Loader';
 import ProfileInputField from '@/components/ProfileInputField';
 
-import ROUTES from '@/constants/routes';
-
 import styles from './styles';
 
-import { auth } from '@/redux/store';
-import AUTH_REGEX from '@/regex/auth';
+import ROUTES from '@/libs/constants/routes';
+
+import useWatchFields from '@/libs/hooks/useWatchFields';
+
+import { auth } from '@/libs/redux/store';
+import AUTH_REGEX from '@/libs/regex/auth';
 
 const WATCH_FIELDS = [
   {

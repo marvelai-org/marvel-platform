@@ -2,14 +2,14 @@ import { forwardRef, useEffect, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 
-import { MESSAGE_ROLE, MESSAGE_TYPES } from '@/constants/bots';
-
 import ImageMessage from '../ImageMessage';
 import Options from '../Options';
 import TextMessage from '../TextMessage';
 import VideoMessage from '../VideoMessage';
 
-import { setStreaming, setStreamingDone } from '@/redux/slices/chatSlice';
+import { MESSAGE_ROLE, MESSAGE_TYPES } from '@/libs/constants/bots';
+
+import { setStreaming, setStreamingDone } from '@/libs/redux/slices/chatSlice';
 
 const { OPTIONS, VIDEO, TEXT, IMAGE, GIF, QUICK_REPLY } = MESSAGE_TYPES;
 

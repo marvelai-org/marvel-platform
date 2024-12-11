@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MainAppLayout from '@/layouts/MainAppLayout';
 import HomePage from '@/templates/HomePage';
 
-import fetchTools from '@/redux/thunks/tools';
+import fetchTools from '@/libs/redux/thunks/tools';
 
 const Home = () => {
   const { data, loading, error } = useSelector((state) => state.tools);

@@ -3,23 +3,21 @@ import { useContext, useState } from 'react';
 import { Grid, useTheme } from '@mui/material';
 import { FormContainer } from 'react-hook-form-mui';
 
-import useWatchFields from '@/hooks/useWatchFields';
-
 import AuthTextField from '@/components/AuthTextField';
 
 import GradientOutlinedButton from '@/components/GradientOutlinedButton';
-
-import { AUTH_STEPS, VALIDATION_STATES } from '@/constants/auth';
-import ALERT_COLORS from '@/constants/notification';
 
 import styles from './styles';
 
 import sharedStyles from '@/styles/shared/sharedStyles';
 
-import { AuthContext } from '@/providers/GlobalProvider';
-import AUTH_REGEX from '@/regex/auth';
-import { signUp } from '@/services/user/signUp';
-import { validatePassword } from '@/utils/AuthUtils';
+import { AUTH_STEPS, VALIDATION_STATES } from '@/libs/constants/auth';
+import ALERT_COLORS from '@/libs/constants/notification';
+import useWatchFields from '@/libs/hooks/useWatchFields';
+import { AuthContext } from '@/libs/providers/GlobalProvider';
+import AUTH_REGEX from '@/libs/regex/auth';
+import { signUp } from '@/libs/services/user/signUp';
+import { validatePassword } from '@/libs/utils/AuthUtils';
 
 const DEFAULT_FORM_VALUES = {
   email: '',

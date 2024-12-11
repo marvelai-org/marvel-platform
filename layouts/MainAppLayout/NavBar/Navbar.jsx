@@ -9,12 +9,12 @@ import ChatIcon from '@/assets/svg/ChatIcon.svg';
 import HomeIcon from '@/assets/svg/HomeMenuIcon.svg';
 import LogoutIcon from '@/assets/svg/LogoutIcon.svg';
 
-import ROUTES from '@/constants/routes';
-
 import styles from './styles';
 
-import { auth } from '@/redux/store';
-import { chatRegex, discoveryRegex, homeRegex } from '@/regex/routes';
+import ROUTES from '@/libs/constants/routes';
+
+import { auth } from '@/libs/redux/store';
+import { chatRegex, discoveryRegex, homeRegex } from '@/libs/regex/routes';
 
 // TODO: Once Discovery Feature is ready, uncomment Discovery Page from below array.
 const PAGES = [

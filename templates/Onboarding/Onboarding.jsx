@@ -13,9 +13,9 @@ import {
   setCompleted,
   setStep,
   setTempData,
-} from '@/redux/slices/onboardingSlice';
-import { firestore } from '@/redux/store';
-import { updateUserData } from '@/redux/thunks/user';
+} from '@/libs/redux/slices/onboardingSlice';
+import { firestore } from '@/libs/redux/store';
+import { updateUserData } from '@/libs/redux/thunks/user';
 
 const onboardingComponents = {
   0: Welcome,

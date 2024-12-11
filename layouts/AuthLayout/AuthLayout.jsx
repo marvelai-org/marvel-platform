@@ -14,7 +14,7 @@ import ImageURLs from '@/assets/urls';
 
 import styles from './styles';
 
-import { setLoading } from '@/redux/slices/authSlice';
+import { setLoading } from '@/libs/redux/slices/authSlice';
 
 /**
  * Renders the authentication layout component that wraps the children components

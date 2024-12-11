@@ -14,7 +14,7 @@ import ImageURLs from '@/assets/urls';
 import SideMenu from './SideMenu';
 import styles from './styles';
 
-import { setLoading } from '@/redux/slices/authSlice';
+import { setLoading } from '@/libs/redux/slices/authSlice';
 
 /**
  * Renders the main application layout.

@@ -7,7 +7,7 @@ import DefaultPromptStar from '@/assets/svg/DefaultPromptStar.svg'; // Import Me
 
 import styles from './styles';
 
-import { setInput } from '@/redux/slices/chatSlice';
+import { setInput } from '@/libs/redux/slices/chatSlice';
 
 /**
  * Renders the default prompt component.

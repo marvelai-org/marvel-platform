@@ -6,14 +6,14 @@ import { useRouter } from 'next/router';
 
 import KAIAvatar from '@/assets/svg/KAIAvatar.svg';
 
-import ROUTES from '@/constants/routes';
-
 import UserAvatar from '../../../components/UserAvatar';
 import NavMenu from '../NavMenu';
 
 import styles from './styles';
 
-import { auth } from '@/redux/store';
+import ROUTES from '@/libs/constants/routes';
+
+import { auth } from '@/libs/redux/store';
 
 /**
  * Renders the Side Menu.

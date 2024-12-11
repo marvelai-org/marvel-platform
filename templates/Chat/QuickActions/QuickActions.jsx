@@ -4,15 +4,15 @@ import { ClickAwayListener, Grid, Typography } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ACTION_TYPES } from '@/constants/bots';
-
 import styles from './styles';
+
+import { ACTION_TYPES } from '@/libs/constants/bots';
 
 import {
   setActionType,
   setDisplayQuickActions,
   setInput,
-} from '@/redux/slices/chatSlice';
+} from '@/libs/redux/slices/chatSlice';
 
 /**
  * QuickActions component that displays a list of quick actions that the user can select.

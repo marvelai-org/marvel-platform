@@ -13,15 +13,15 @@ import { useDispatch } from 'react-redux';
 
 import { InputWrapper, ProfileTextField } from '@/components/ProfileTextField';
 
-import ALERT_COLORS from '@/constants/notification.js';
-
 import stylesOnboarding from '../styles.js';
 
 import styles from './styles.js';
 
-import { AuthContext } from '@/providers/GlobalProvider.jsx';
-import { setTempData } from '@/redux/slices/onboardingSlice.js';
-import ONBOARDING_REGEX from '@/regex/onboarding.js';
+import ALERT_COLORS from '@/libs/constants/notification.js';
+
+import { AuthContext } from '@/libs/providers/GlobalProvider.jsx';
+import { setTempData } from '@/libs/redux/slices/onboardingSlice.js';
+import ONBOARDING_REGEX from '@/libs/regex/onboarding.js';
 
 const ProfileSetupForm = ({ onNext, tempData }) => {
   const dispatch = useDispatch();

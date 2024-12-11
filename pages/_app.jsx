@@ -5,10 +5,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useRouter } from 'next/router';
 import { GoogleAnalytics } from 'nextjs-google-analytics';
 
-import firebaseConfig from '@/firebase/config';
+import firebaseConfig from '@/libs/firebase/config';
 
-import GlobalProvider from '@/providers/GlobalProvider';
-import theme from '@/theme/theme';
+import GlobalProvider from '@/libs/providers/GlobalProvider';
+import theme from '@/libs/theme/theme';
 
 import '@/styles/globals.css';
 

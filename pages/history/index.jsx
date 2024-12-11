@@ -1,5 +1,6 @@
 import MainAppLayout from '@/layouts/MainAppLayout';
-import ToolHistoryPage from '@/templates/ToolHistoryPage';
+
+import ToolHistoryPage from '@/tools/views/ToolHistoryPage';
 
 const ToolOutputHistory = () => {
   return <ToolHistoryPage />;

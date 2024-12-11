@@ -1,11 +1,10 @@
 import { useRouter } from 'next/router';
 
-import useToolProps from '@/hooks/useToolProps';
-
 import MainAppLayout from '@/layouts/MainAppLayout';
-import ToolPage, { ToolPageSkeleton } from '@/templates/ToolPage';
 
-import ROUTES from '@/constants/routes';
+import ROUTES from '@/libs/constants/routes';
+import ToolPage, { ToolPageSkeleton } from '@/tools';
+import useToolProps from '@/tools/libs/hooks/useToolProps';
 
 /**
  * This component renders the ToolPage component.

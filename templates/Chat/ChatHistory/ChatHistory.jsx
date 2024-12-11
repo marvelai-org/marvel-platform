@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './styles';
 
-import fetchChat from '@/redux/thunks/fetchChat';
-import fetchHistory from '@/redux/thunks/fetchHistory';
+import fetchChat from '@/libs/redux/thunks/fetchChat';
+import fetchHistory from '@/libs/redux/thunks/fetchHistory';
 
 /**
  * Categorizes chat history into different time periods.

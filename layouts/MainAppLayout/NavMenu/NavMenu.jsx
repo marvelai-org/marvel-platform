@@ -5,11 +5,11 @@ import { useRouter } from 'next/router';
 import ChatBubble from '@/assets/svg/ChatBubbleV2.svg';
 import HomeIcon from '@/assets/svg/HomeIconOutline.svg';
 
-import ROUTES from '@/constants/routes';
-
 import styles from './styles';
 
-import { chatRegex, historyRegex, homeRegex } from '@/regex/routes';
+import ROUTES from '@/libs/constants/routes';
+
+import { chatRegex, historyRegex, homeRegex } from '@/libs/regex/routes';
 
 const PAGES = [
   {

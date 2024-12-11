@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 
 import AppDisabled from '@/components/AppDisabled';
 
-import { onboardingSteps } from '@/constants/onboarding';
-
 import ProgressBar from './ProgressBar';
 import styles from './styles';
+
+import { onboardingSteps } from '@/libs/constants/onboarding';
 
 /**
  * OnboardingLayout component that wraps the onboarding flow of the application.

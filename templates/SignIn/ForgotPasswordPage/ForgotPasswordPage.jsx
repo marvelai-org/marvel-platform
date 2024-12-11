@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { ArrowBack } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
-import { FORGOT_PASSWORD_STEPS } from '@/constants/auth';
-
 import CheckInbox from './CheckInbox';
 import EnterEmailView from './EnterEmailView';
 
 import sharedStyles from '@/styles/shared/sharedStyles';
+
+import { FORGOT_PASSWORD_STEPS } from '@/libs/constants/auth';
 
 const FORGOT_PASSWORD_PAGE = {
   [FORGOT_PASSWORD_STEPS.EMAIL]: EnterEmailView,

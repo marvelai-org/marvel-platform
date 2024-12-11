@@ -7,12 +7,12 @@ import GradientOutlinedButton from '@/components/GradientOutlinedButton';
 
 import RocketIcon from '@/assets/svg/rocket.svg';
 
-import ALERT_COLORS from '@/constants/notification';
-
 import styles from './styles';
 
-import { AuthContext } from '@/providers/GlobalProvider';
-import { sendVerification } from '@/services/user/manageUser';
+import ALERT_COLORS from '@/libs/constants/notification';
+
+import { AuthContext } from '@/libs/providers/GlobalProvider';
+import { sendVerification } from '@/libs/services/user/manageUser';
 
 const VerifyEmailPage = (props) => {
   const { email } = props;

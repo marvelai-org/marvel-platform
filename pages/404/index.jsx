@@ -8,9 +8,9 @@ import Planet from '@/assets/svg/planet.svg';
 import Star from '@/assets/svg/Star_3.svg';
 import YellowStar from '@/assets/svg/yellowStar.svg';
 
-import ROUTES from '@/constants/routes';
-
 import pageNotFoundStyles from '@/styles/pageNotFoundStyles';
+
+import ROUTES from '@/libs/constants/routes';
 
 /**
  * Renders the page for when the requested route is not found.

@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 
 import GradientOutlinedButton from '@/components/GradientOutlinedButton';
 
-import ROUTES from '@/constants/routes';
-
 import styles from './styles';
 
-import { auth } from '@/redux/store';
+import ROUTES from '@/libs/constants/routes';
+
+import { auth } from '@/libs/redux/store';
 
 const PasswordUpdated = () => {
   const router = useRouter();
