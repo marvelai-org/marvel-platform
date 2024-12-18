@@ -310,7 +310,7 @@ const DiscoveryLibraryWindow = (props) => {
       </Grid>
     );
   };
-  
+
   const renderNewMessageIndicator = () => {
     return (
       <Fade in={showNewMessageIndicator}>
