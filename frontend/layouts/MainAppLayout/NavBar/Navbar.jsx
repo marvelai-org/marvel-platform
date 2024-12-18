@@ -14,6 +14,7 @@ import HomeIcon from '@/assets/svg/HomeMenuIcon.svg';
 import LogoutIcon from '@/assets/svg/LogoutIcon.svg';
 
 import ROUTES from '@/constants/routes';
+import ROUTES_IDS from '@/constants/routes_ids';
 
 import styles from './styles';
 
@@ -26,19 +27,19 @@ const PAGES = [
     name: 'Home',
     link: ROUTES.HOME,
     icon: <HomeIcon />,
-    id: 'home',
+    id: ROUTES_IDS.HOME,
   },
   {
     name: 'Discovery',
     link: ROUTES.DISCOVERY,
     icon: <DiscoveryIcon />,
-    id: 'discovery',
+    id: ROUTES_IDS.DISCOVERY,
   },
   {
     name: 'Chat',
     link: ROUTES.CHAT,
     icon: <ChatIcon />,
-    id: 'chat',
+    id: ROUTES_IDS.CHAT,
   },
 ];
 
@@ -127,13 +128,13 @@ const NavBar = (props) => {
         chatRegex.test(pathname) || discoveryRegex.test(pathname),
       ].includes(true);
 
-      if (id === 'home')
+      if (id === ROUTES_IDS.HOME)
         return isNotHomePage ? false : homeRegex.test(pathname);
 
       // TODO: Once Discovery Feature is ready, uncomment below statement.
-      if (id === 'discovery') return discoveryRegex.test(pathname);
+      if (id === ROUTES_IDS.DISCOVERY) return discoveryRegex.test(pathname);
 
-      if (id === 'chat') return chatRegex.test(pathname);
+      if (id === ROUTES_IDS.CHAT) return chatRegex.test(pathname);
 
       return false;
     };
@@ -145,7 +146,7 @@ const NavBar = (props) => {
      * @returns {void}
      */
     const handleRoute = (link, id) => {
-      if (id === 'discovery' && router.pathname === ROUTES.DISCOVERY) {
+      if (id === ROUTES_IDS.DISCOVERY && router.pathname === ROUTES.DISCOVERY) {
         toggleDiscovery();
       } else {
         router.push(link);

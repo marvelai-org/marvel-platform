@@ -1,7 +1,6 @@
 {
   "projects": {
-    "default": "kai-ai-b8ac9",
-    "mickey's-app-firebase": "kai-platform-b53aa"
+    "default": "kai-ai-b8ac9"
   },
   "targets": {
     "kai-ai-b8ac9": {

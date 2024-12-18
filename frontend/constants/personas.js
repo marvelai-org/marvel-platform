@@ -1,4 +1,4 @@
-const categorizePrompts = [
+const categorizePersonas = [
   {
     title: 'Math Tutor',
     description:
@@ -22,4 +22,4 @@ const categorizePrompts = [
   // Add more prompts as needed
 ];
 
-export default categorizePrompts;
+export default categorizePersonas;

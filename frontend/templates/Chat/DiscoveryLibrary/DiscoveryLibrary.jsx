@@ -18,32 +18,82 @@ import AvatarImage from '@/assets/svg/ReadyPlayerMeAvatar.svg';
 import StarGroupIcon from '@/assets/svg/starGroupIcon.svg';
 import UnionIcon from '@/assets/svg/Union.svg';
 
-import categorizePrompts from '@/constants/prompts';
-
 import styles from './styles';
 
-import { resetChat, setInput } from '@/redux/slices/chatSlice';
+import { resetChat } from '@/redux/slices/chatSlice';
+import addPersonas from '@/redux/thunks/addPersonas';
+import fetchPersonas from '@/redux/thunks/fetchPersona';
 
 const DiscoveryLibrary = (props) => {
   const { show, selectedPrompt } = props;
   const { data: user } = useSelector((state) => state.user);
-  const [customPrompts, setCustomPrompts] = useState([]);
+  const personas = useSelector((state) => state.personas?.data || []);
+  const loading = useSelector((state) => state.personas?.loading);
+  const error = useSelector((state) => state.personas?.error);
   const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Define your custom prompts here
+    dispatch(fetchPersonas());
+    dispatch(addPersonas());
+  }, [dispatch]);
 
-    const fetchPrompts = async () => {
-      // This could be an API call or local data
-      setCustomPrompts(categorizePrompts);
-    };
+  useEffect(() => {
+    if (personas && Array.isArray(personas) && personas.length > 0) {
+      setIsLoaded(true);
+    }
+  }, [personas]);
 
-    fetchPrompts();
-  }, []);
+  useEffect(() => {}, [isLoaded]);
+  useEffect(() => {}, [loading]);
+  useEffect(() => {}, [error]);
 
-  const handlePromptClick = (prompt) => {
-    selectedPrompt(prompt);
+  const handlePersonaClick = (persona) => {
+    selectedPrompt(persona);
     dispatch(resetChat());
+  };
+
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <Grid {...styles.loadingGridProps}>
+          <Typography {...styles.loadingProps}>Loading...</Typography>
+        </Grid>
+      );
+    }
+
+    if (error) {
+      return (
+        <Grid {...styles.errorGridProps}>
+          <Typography {...styles.errorProps}>Error loading data</Typography>
+        </Grid>
+      );
+    }
+
+    if (isLoaded && personas.length > 0) {
+      return (
+        <Grid container {...styles.cardGridProps}>
+          {personas.map((persona, index) => (
+            <Grid item key={index} onClick={() => handlePersonaClick(persona)}>
+              <Card {...styles.cardProps}>
+                <CardActionArea>
+                  <CardContent>
+                    <Typography {...styles.cardTitleProps}>
+                      {persona.title}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <Grid {...styles.starIconProps}>
+                  <UnionPurpleIcon />
+                </Grid>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -68,8 +118,6 @@ const DiscoveryLibrary = (props) => {
         <Grid container {...styles.avatarGridProps}>
           <Grid item {...styles.avatarImageGridProps}>
             <AvatarImage {...styles.avatarImageProps} />
-            {/* <img src={<AvatarImage/>} alt="Avatar"/> */}
-            {/* {console.log("Avatar image present: ",<AvatarImage/>)} */}
           </Grid>
           <Grid item {...styles.starGroupIconGridProps}>
             <StarGroupIcon {...styles.starGroupIconProps} />
@@ -83,25 +131,7 @@ const DiscoveryLibrary = (props) => {
             </Typography>
           </Grid>
         </Grid>
-
-        <Grid container {...styles.cardGridProps}>
-          {customPrompts?.map((prompt, index) => (
-            <Grid item key={index} onClick={() => handlePromptClick(prompt)}>
-              <Card {...styles.cardProps}>
-                <CardActionArea>
-                  <CardContent>
-                    <Typography {...styles.cardTitleProps}>
-                      {prompt.title}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <Grid {...styles.starIconProps}>
-                  <UnionPurpleIcon />
-                </Grid>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+        {renderContent()}
       </Grid>
     </Grid>
   );

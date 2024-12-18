@@ -70,8 +70,7 @@ const MainAppLayout = (props) => {
           isDiscoveryOpen={isDiscoveryOpen}
         />
         <Grid {...styles.contentGridProps(extraContentProps, isToolPage)}>
-          {children}
-          {/* DiscoveryLibraryWindow component displays a sidebar that contains discovery Library. This component is rendered on the right side of the chat interface. */}
+          {children}{' '}
           {isDiscoveryPage && (
             <DiscoveryLibraryWindow isDiscoveryOpen={isDiscoveryOpen} />
           )}

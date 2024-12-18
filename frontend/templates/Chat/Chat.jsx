@@ -104,7 +104,6 @@ const ChatInterface = () => {
       type: 'chat',
       message,
     };
-
     // Send a chat session
     const { status, data } = await createChatSession(chatPayload, dispatch);
 

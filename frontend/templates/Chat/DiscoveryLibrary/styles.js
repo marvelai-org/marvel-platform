@@ -268,5 +268,27 @@ const styles = {
       left: { laptop: 95, desktop: 105 },
     },
   },
+
+  loadingGridProps: {
+    container: true,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  errorGridProps: {
+    container: true,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  loadingProps: {
+    sx: (theme) => ({
+      color: theme.palette.Common.White['100p'],
+    }),
+  },
+
+  errorProps: {
+    sx: (theme) => ({
+      color: theme.palette.Background.red,
+    }),
+  },
 };
 export default styles;

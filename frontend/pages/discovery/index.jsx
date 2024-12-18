@@ -2,7 +2,6 @@ import MainAppLayout from '@/layouts/MainAppLayout';
 import DiscoveryLibrary from '@/templates/Chat/DiscoveryLibrary';
 
 const MarvelDiscovery = () => {
-  localStorage.removeItem('sessionId');
   return <DiscoveryLibrary />;
 };
 

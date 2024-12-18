@@ -331,10 +331,6 @@ const DiscoveryLibraryWindow = (props) => {
     if (!openSettingsChat && !infoChatOpened)
       return (
         <Grid {...styles.bottomChatContent.bottomChatContentGridProps}>
-          {/* Default Prompt Component */}
-          {/* <DefaultPrompt handleSendMessage={handleSendMessage} /> */}
-
-          {/* Quick Actions Component */}
           <QuickActions handleSendMessage={handleSendMessage} />
           <Grid {...styles.bottomChatContent.chatInputGridProps(!!error)}>
             <TextField
@@ -360,7 +356,6 @@ const DiscoveryLibraryWindow = (props) => {
 
   return (
     <Grid container {...styles.chatInterface}>
-      {/* Discovery Library Slide */}
       {isDiscoveryPage && (
         <Slide
           direction="right"
@@ -378,10 +373,8 @@ const DiscoveryLibraryWindow = (props) => {
       )}
 
       <Grid item {...styles.chatGridProps(isDiscoveryOpen)}>
-        {/* Center Chat Content */}
         {renderCenterChatContent()}
         {renderNewMessageIndicator()}
-        {/* Bottom Chat Content */}
         {renderBottomChatContent()}
       </Grid>
     </Grid>
