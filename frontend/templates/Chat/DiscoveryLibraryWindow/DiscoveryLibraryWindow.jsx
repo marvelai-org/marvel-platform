@@ -94,7 +94,6 @@ const DiscoveryLibraryWindow = (props) => {
 
     dispatch(setTyping(true));
 
-    // Define the chat payload
     const chatPayload = {
       user: {
         id: userData?.id,
@@ -105,18 +104,14 @@ const DiscoveryLibraryWindow = (props) => {
       message,
     };
 
-    // Send a chat session
     const { status, data } = await createChatSession(chatPayload, dispatch);
 
-    // Remove typing bubble
     dispatch(setTyping(false));
     if (status === 'created') dispatch(setStreaming(true));
 
-    // Set chat session
     dispatch(setChatSession(data));
     dispatch(setSessionLoaded(true));
     setSelectedPrompt(null);
-    // dispatch(fetchHistory(userData.id));
   };
 
   const handleSendMessage = async () => {
@@ -206,7 +201,7 @@ const DiscoveryLibraryWindow = (props) => {
 
     dispatch(setStreamingDone(false));
   };
-  /* Push Enter */
+
   const keyDownHandler = async (e) => {
     if (typing || !input || streaming) return;
     if (e.keyCode === 13) handleSendMessage();
