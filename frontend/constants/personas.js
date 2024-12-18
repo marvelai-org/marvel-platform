@@ -19,7 +19,6 @@ const categorizePersonas = [
     description:
       'Act as a music tutor for our conversation. I will ask you about music theory, instruments, composition, and performance techniques. Provide detailed explanations, sheet music examples, and exercises to help me understand and improve my musical abilities.',
   },
-  // Add more prompts as needed
 ];
 
 export default categorizePersonas;
