@@ -37,7 +37,6 @@ const DiscoveryLibrary = (props) => {
     dispatch(fetchPersonas());
     dispatch(addPersonas());
   }, [dispatch]);
-
   useEffect(() => {
     if (personas && Array.isArray(personas) && personas.length > 0) {
       setIsLoaded(true);

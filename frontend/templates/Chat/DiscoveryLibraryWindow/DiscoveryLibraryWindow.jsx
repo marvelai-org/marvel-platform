@@ -85,7 +85,6 @@ const DiscoveryLibraryWindow = (props) => {
   const isDiscoveryPage = router.pathname === ROUTES.DISCOVERY;
   const [selectedPrompt, setSelectedPrompt] = useState(null);
   const startConversation = async (message) => {
-    // Optionally dispatch a temporary message for the user's input
     dispatch(
       setMessages({
         role: MESSAGE_ROLE.HUMAN,
@@ -129,7 +128,6 @@ const DiscoveryLibraryWindow = (props) => {
       return;
     }
 
-    // BUG FIX: First checking whether the user has entered any text before setting streaming true amd then sending the message.
     dispatch(setStreaming(true));
 
     const message = {
@@ -142,12 +140,10 @@ const DiscoveryLibraryWindow = (props) => {
     };
 
     if (!chatMessages) {
-      // Start a new conversation if there are no existing messages
       await startConversation(message);
       return;
     }
 
-    // Add the user's message to the chat
     dispatch(
       setMessages({
         role: MESSAGE_ROLE.HUMAN,
@@ -157,7 +153,6 @@ const DiscoveryLibraryWindow = (props) => {
 
     dispatch(setTyping(true));
 
-    // Ensure the user’s message is displayed before sending the message
     setTimeout(async () => {
       await sendMessage({ message, id: sessionId }, dispatch);
     }, 0);
@@ -268,6 +263,7 @@ const DiscoveryLibraryWindow = (props) => {
     }
     return null;
   };
+
   const renderStartChatMessage = () => {
     return (
       <TextMessage
@@ -279,7 +275,7 @@ const DiscoveryLibraryWindow = (props) => {
 
   const renderCenterChatContent = () => {
     if (selectedPrompt) {
-      return renderCustomPrompt(); // Render custom prompt if selected
+      return renderCustomPrompt();
     }
     return (
       <Grid
@@ -291,10 +287,9 @@ const DiscoveryLibraryWindow = (props) => {
           onScroll={handleOnScroll}
           {...styles.centerChat.messagesGridProps}
         >
-          {/* Render the start chat message if there are no chat messages or if the info chat is not open. */}
-          {(chatMessages?.length === 0 || !chatMessages) && !infoChatOpened
-            ? renderStartChatMessage()
-            : null}
+          {(chatMessages?.length === 0 || !chatMessages) &&
+            !infoChatOpened &&
+            renderStartChatMessage()}
           {chatMessages?.map(
             (message, index) =>
               message?.role !== MESSAGE_ROLE.SYSTEM && (
@@ -315,6 +310,7 @@ const DiscoveryLibraryWindow = (props) => {
       </Grid>
     );
   };
+  
   const renderNewMessageIndicator = () => {
     return (
       <Fade in={showNewMessageIndicator}>

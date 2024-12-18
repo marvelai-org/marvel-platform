@@ -56,7 +56,6 @@ const styles = {
     mobileSmall: true,
     position: 'absolute',
     top: -80,
-    // left: 20,
     left: { laptop: -35, desktop: 20 },
     height: '90%',
     width: 'fit-content',
@@ -224,8 +223,8 @@ const styles = {
     }),
   },
   backImageProps: {
-    width: '100%', // Adjust width as needed
-    height: '100%', // Adjust height as needed
+    width: '100%',
+    height: '100%',
   },
   chatBoxGridProps: {
     container: true,
